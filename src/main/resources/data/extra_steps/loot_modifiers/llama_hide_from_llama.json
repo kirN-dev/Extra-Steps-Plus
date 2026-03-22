@@ -1,0 +1,11 @@
+{
+  "type": "extra_steps:replace_item",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/llama"
+    }
+  ],
+  "from": "minecraft:leather",
+  "to": "extra_steps:raw_llama_hide"
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "extra_steps:block/hanging_drying_rack"
+    },
+    "facing=east": {
+      "model": "extra_steps:block/hanging_drying_rack",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "extra_steps:block/hanging_drying_rack",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "extra_steps:block/hanging_drying_rack",
+      "y": 270
+    }
+  }
+}

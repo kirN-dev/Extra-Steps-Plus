@@ -1,0 +1,27 @@
+{
+  "entries": [
+    "extra_steps:cow_hide_from_cow",
+    "extra_steps:pig_hide_from_pig",
+    "extra_steps:wolf_pelt_from_wolf",
+    "extra_steps:fox_pelt_from_fox",
+    "extra_steps:polar_bear_pelt_from_polar_bear",
+    "extra_steps:panda_pelt_from_panda",
+    "extra_steps:equine_hide_from_horse",
+    "extra_steps:equine_hide_from_donkey",
+    "extra_steps:equine_hide_from_mule",
+    "extra_steps:llama_hide_from_llama",
+
+    "extra_steps:pig_hide_from_boar",
+    "extra_steps:hide_from_bear",
+    "extra_steps:hide_from_deer",
+    "extra_steps:hide_from_elephant",
+    "extra_steps:hide_from_rhino",
+    "extra_steps:hide_from_lion",
+    "extra_steps:hide_from_giraffe",
+    "extra_steps:hide_from_hippo",
+
+    "extra_steps:generic_wool_to_crumbled_wool_replacement",
+    "extra_steps:generic_leather_to_hide_replacement"
+  ],
+  "replace": false
+}

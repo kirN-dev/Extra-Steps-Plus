@@ -1,0 +1,10 @@
+{
+  "type": "extra_steps:add_item",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/polar_bear"
+    }
+  ],
+  "item": "extra_steps:raw_polar_bear_pelt"
+}

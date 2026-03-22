@@ -1,0 +1,34 @@
+{
+  "creative_tab.extra_steps_tab": "Extra Steps",
+
+  "block.extra_steps.drying_rack": "Drying Rack",
+  "block.extra_steps.basket": "Basket",
+  "block.extra_steps.spinning_wheel": "Spinning Wheel",
+  "block.extra_steps.wooden_cauldron": "Wooden Cauldron",
+  "block.extra_steps.colorable_wool": "Wool",
+
+  "item.extra_steps.crumbled_wool": "Crumbled Wool",
+  "item.extra_steps.raw_wool": "Raw Wool",
+  "item.extra_steps.wet_wool": "Wet Wool",
+  "item.extra_steps.fibered_wool": "Fibered Wool",
+  "item.extra_steps.brushed_wool": "Brushed Wool",
+  "item.extra_steps.wool_brush": "Wool Brush",
+
+  "item.extra_steps.raw_hide": "Rawhide",
+  "item.extra_steps.raw_cow_hide": "Cow Rawhide",
+  "item.extra_steps.raw_pig_hide": "Pig Rawhide",
+  "item.extra_steps.raw_wolf_pelt": "Wolf Pelt",
+  "item.extra_steps.raw_fox_pelt": "Fox Pelt",
+  "item.extra_steps.raw_polar_bear_pelt": "Polar Bear Pelt",
+  "item.extra_steps.raw_panda_pelt": "Panda Pelt",
+  "item.extra_steps.raw_equine_hide": "Equine Rawhide",
+  "item.extra_steps.raw_llama_hide": "Llama rawhide",
+  "item.extra_steps.scraped_hide": "Scraped Rawhide",
+  "item.extra_steps.wet_hide": "Wet Hide",
+
+  "item.extra_steps.ash": "Ash",
+  "fluid.extra_steps.lye_water": "Lye Water",
+  "block.extra_steps.lye_water": "Lye Water",
+  "fluid_type.extra_steps.lye_water_fluid": "Lye Water",
+  "item.extra_steps.lye_water_bucket": "Lye-Water Bucket"
+}

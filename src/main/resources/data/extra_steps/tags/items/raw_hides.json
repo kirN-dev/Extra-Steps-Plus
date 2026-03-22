@@ -1,0 +1,13 @@
+{
+  "values": [
+    "extra_steps:raw_hide",
+    "extra_steps:raw_cow_hide",
+    "extra_steps:raw_pig_hide",
+    "extra_steps:raw_panda_pelt",
+    "extra_steps:raw_wolf_pelt",
+    "extra_steps:raw_fox_pelt",
+    "extra_steps:raw_equine_hide",
+    "extra_steps:raw_llama_hide",
+    "extra_steps:raw_polar_bear_pelt"
+  ]
+}

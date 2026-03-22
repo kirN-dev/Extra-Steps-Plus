@@ -1,0 +1,12 @@
+{
+  "type": "extra_steps:processing",
+  "mode": "cleaning",
+  "ingredient": [
+    { "item": "extra_steps:raw_wool" },
+    { "item": "extra_steps:wet_wool" },
+    { "item": "extra_steps:fibered_wool" },
+    { "item": "extra_steps:brushed_wool" }
+  ],
+  "result": "extra_steps:wet_wool",
+  "time": 0
+}

@@ -1,0 +1,7 @@
+{
+  "type": "extra_steps:processing",
+  "mode": "scraping",
+  "ingredient": { "tag": "extra_steps:raw_hides" },
+  "result": "extra_steps:scraped_hide",
+  "time": 0
+}

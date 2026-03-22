@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    " S ",
+    " W "
+  ],
+  "key": {
+    "F": {
+      "tag": "extra_steps:plant_fiber"
+    },
+    "W": {
+      "item": "minecraft:stick"
+    },
+    "S": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "extra_steps:wool_brush"
+  }
+}

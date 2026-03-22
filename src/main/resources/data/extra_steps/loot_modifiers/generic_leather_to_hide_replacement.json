@@ -1,0 +1,5 @@
+{
+  "type": "extra_steps:replace_leather_item",
+  "conditions": [],
+  "to": "extra_steps:raw_hide"
+}

@@ -1,0 +1,7 @@
+{
+  "type": "extra_steps:processing",
+  "mode": "brushing",
+  "ingredient": { "item": "extra_steps:fibered_wool" },
+  "result": "extra_steps:brushed_wool",
+  "time": 40
+}

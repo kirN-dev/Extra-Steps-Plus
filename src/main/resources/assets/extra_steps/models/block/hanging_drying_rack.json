@@ -1,0 +1,9 @@
+{
+  "parent": "extra_steps:custom/drying_rack",
+  "textures": {
+    "all": "extra_steps:block/drying_rack",
+    "particle": "minecraft:block/oak_log",
+    "0": "extra_steps:block/drying_rack"
+  },
+  "render_type": "translucent"
+}

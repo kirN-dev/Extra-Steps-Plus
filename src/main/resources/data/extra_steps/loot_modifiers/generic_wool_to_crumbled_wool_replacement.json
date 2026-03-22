@@ -1,0 +1,5 @@
+{
+  "type": "extra_steps:replace_wool_item",
+  "conditions": [],
+  "to": "extra_steps:crumbled_wool"
+}
