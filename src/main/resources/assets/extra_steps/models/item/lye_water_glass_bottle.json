@@ -1,0 +1,21 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "extra_steps:item/lye_water_bottle_liquid_3",
+    "layer1": "extra_steps:item/lye_water_bottle"
+  },
+  "overrides": [
+    {
+      "predicate": { "interactions": 1 },
+      "model": "extra_steps:item/lye_water_glass_bottle_1"
+    },
+    {
+      "predicate": { "interactions": 2 },
+      "model": "extra_steps:item/lye_water_glass_bottle_2"
+    },
+    {
+      "predicate": { "interactions": 3 },
+      "model": "extra_steps:item/lye_water_glass_bottle_3"
+    }
+  ]
+}

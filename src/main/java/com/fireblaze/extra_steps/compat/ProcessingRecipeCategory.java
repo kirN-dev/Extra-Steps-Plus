@@ -53,7 +53,7 @@ public class ProcessingRecipeCategory implements IRecipeCategory<ProcessingRecip
         ResourceLocation furnaceGui = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/container/furnace.png");
         this.arrow = helper.createDrawable(furnaceGui, 176, 14, 24, 17);
 
-        ResourceLocation mySunTexture = ResourceLocation.fromNamespaceAndPath(ExtraSteps.MODID, "textures/gui/img.png");
+        ResourceLocation mySunTexture = ResourceLocation.fromNamespaceAndPath(ExtraSteps.MODID, "textures/gui/lye_water_bottle.png");
         this.sun = helper.createDrawableItemStack(new ItemStack(Items.SUNFLOWER));
 
         // --- Alle Waffen sammeln ---

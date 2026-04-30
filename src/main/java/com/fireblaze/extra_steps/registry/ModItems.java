@@ -4,6 +4,7 @@ import com.fireblaze.extra_steps.ExtraSteps;
 import com.fireblaze.extra_steps.fluid.ModFluids;
 import com.fireblaze.extra_steps.item.ColoredWoolItem;
 import com.fireblaze.extra_steps.item.LyeWaterBucketItem;
+import com.fireblaze.extra_steps.item.LyeWaterGlassBottleItem;
 import com.fireblaze.extra_steps.item.WoolBrushItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -74,6 +75,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> WET_HIDE =
             ITEMS.register("wet_hide", () -> new Item(new Item.Properties()));
+
+    public static final RegistryObject<Item> LYE_WATER_GLASS_BOTTLE =
+            ITEMS.register("lye_water_glass_bottle", () -> new LyeWaterGlassBottleItem(new Item.Properties()));
 
     public static final RegistryObject<Item> LYE_WATER_BUCKET =
             ITEMS.register("lye_water_bucket",

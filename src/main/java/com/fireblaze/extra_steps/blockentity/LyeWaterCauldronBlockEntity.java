@@ -1,21 +1,22 @@
 package com.fireblaze.extra_steps.blockentity;
 
 import com.fireblaze.extra_steps.registry.ModBlockEntities;
+import com.fireblaze.extra_steps.util.CauldronInteractionHelper;
 import com.fireblaze.extra_steps.util.GenericColorHelper;
+import com.fireblaze.extra_steps.util.GenericCauldronInteractions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
-public class LyeWaterCauldronBlockEntity extends BlockEntity {
+public class LyeWaterCauldronBlockEntity extends BlockEntity implements GenericCauldronInteractions {
 
     private int color = 0xFFFFFF; // Startfarbe Weiß
 
@@ -24,7 +25,7 @@ public class LyeWaterCauldronBlockEntity extends BlockEntity {
     private final int[][] accumulatedColors = new int[3][3]; // RGB pro Level
     private float fillFactor = 0f; // Saturation Ratio (usedSlots / maxSlots)
     private final List<Integer>[] colorLists = new List[3]; // pro Wasserlevel 1..3
-    private final int[] availableInteractions = new int[]{3, 3, 3};
+    public final int[] availableInteractions = new int[]{3, 3, 3};
     private boolean full = false;
 
     public float itemYaw = 0f;
@@ -34,6 +35,18 @@ public class LyeWaterCauldronBlockEntity extends BlockEntity {
         for (int i = 0; i < 3; i++) {
             colorLists[i] = new ArrayList<>();
         }
+    }
+
+    @Override
+    public void copyColorTo(ItemStack stack, boolean empty) {
+        GenericColorHelper.copyColorFromLyeWater(this, stack, empty);
+    }
+
+    @Override
+    public void drainLevel(Level level, BlockPos pos, BlockState state,
+                           int currentLevel, int interactions,
+                           BlockState emptyState) {
+        CauldronInteractionHelper.drainLevel(level, pos, state, currentLevel, interactions, this, emptyState);
     }
 
     public int getColor() {
@@ -152,11 +165,8 @@ public class LyeWaterCauldronBlockEntity extends BlockEntity {
         availableInteractions[index]--;
 
         if (availableInteractions[index] <= 0) {
-            availableInteractions[index] = 3;
-
+            //then you get availableInteractions[index] = 3;
             setChanged();
-            sync();
-
             return true; // Level reduzieren
         }
 

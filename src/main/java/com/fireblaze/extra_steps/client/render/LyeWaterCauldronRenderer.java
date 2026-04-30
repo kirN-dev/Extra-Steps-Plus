@@ -1,6 +1,7 @@
 package com.fireblaze.extra_steps.client.render;
 
 import com.fireblaze.extra_steps.blockentity.LyeWaterCauldronBlockEntity;
+import com.fireblaze.extra_steps.config.ModConfigHandler;
 import com.fireblaze.extra_steps.util.GenericColorHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -36,7 +37,7 @@ public class LyeWaterCauldronRenderer implements BlockEntityRenderer<LyeWaterCau
 
         // Spielerabstand prüfen
         double distance = player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-        if (distance > maxDistance * maxDistance) return; // Items unsichtbar
+        if (distance > ModConfigHandler.maxDistanceColorItemRendering.get() * ModConfigHandler.maxDistanceColorItemRendering.get()) return; // Items unsichtbar
 
         List<Integer>[] colorLists = cauldron.getUsedColors();
         int maxSlotsPerLevel = 3;
@@ -45,7 +46,7 @@ public class LyeWaterCauldronRenderer implements BlockEntityRenderer<LyeWaterCau
         if (totalColors <= 0) return;
 
         poseStack.pushPose();
-        poseStack.translate(0.5, 1.05, 0.5);
+        poseStack.translate(0.5, 0.95, 0.5);
         poseStack.scale(2f, 2f, 2f);
 
         // Rotation in Richtung Spieler

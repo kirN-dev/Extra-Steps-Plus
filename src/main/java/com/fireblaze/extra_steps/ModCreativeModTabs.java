@@ -37,14 +37,19 @@ public class ModCreativeModTabs {
                         pOutput.accept(ModItems.WET_HIDE.get());
 
                         pOutput.accept(ModItems.ASH.get());
-                        pOutput.accept(ModItems.LYE_WATER_BUCKET.get());
+                        pOutput.accept(ModItems.LYE_WATER_BUCKET.get());;
+                        pOutput.accept(ModItems.LYE_WATER_GLASS_BOTTLE.get());
 
                         pOutput.accept(ModBlocks.DRYING_RACK.get());
                         //pOutput.accept(ModBlocks.HANGING_DRYING_RACK.get());
                         pOutput.accept(ModBlocks.BASKET.get());
                         //pOutput.accept(ModBlocks.SPINNING_WHEEL.get());
-                        //pOutput.accept(ModBlocks.WOODEN_CAULDRON.get());
+                        pOutput.accept(ModBlocks.WOODEN_CAULDRON.get());
                         pOutput.accept(ModBlocks.COLORABLE_WOOL.get());
+                        pOutput.accept(ModBlocks.COLORABLE_STAINED_GLASS.get());
+                        pOutput.accept(ModBlocks.COLORABLE_STAINED_GLASS_PANE.get());
+                        pOutput.accept(ModBlocks.COLORABLE_TERRACOTTA.get());
+                        pOutput.accept(ModBlocks.COLORABLE_CONCRETE.get());
                     }))
                     .build());
 

@@ -5,19 +5,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ColorableWoolBlockEntity extends BlockEntity {
+public class ColorableGlassPaneBlockEntity extends BlockEntity {
 
-    public ColorableWoolBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.COLORABLE_WOOL_BE.get(), pos, state);
+    public ColorableGlassPaneBlockEntity(BlockPos pos, BlockState state) {
+        super(ModBlockEntities.COLORABLE_GLASS_PANE_BE.get(), pos, state);
 
         for (int i = 0; i < 3; i++) {
             colorLists[i] = new ArrayList<>();
@@ -60,21 +57,15 @@ public class ColorableWoolBlockEntity extends BlockEntity {
     public void load(CompoundTag tag) {
         super.load(tag);
 
-        // 🔴 Farbe
         if (tag.contains("color")) {
             this.color = tag.getInt("color");
         }
-
-        // 🟡 FillFactor
         if (tag.contains("fillFactor")) {
             this.fillFactor = tag.getFloat("fillFactor");
         }
-
-        // 🔵 ColorLists
         for (int i = 0; i < 3; i++) {
             String key = "colorList" + i;
 
-            // Liste IMMER resetten → verhindert Alt-Daten
             colorLists[i].clear();
 
             if (tag.contains(key)) {
@@ -110,12 +101,12 @@ public class ColorableWoolBlockEntity extends BlockEntity {
     }
 
     @Override
-    public net.minecraft.nbt.CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag() {
         return this.saveWithoutMetadata();
     }
 
     @Override
-    public void handleUpdateTag(net.minecraft.nbt.CompoundTag tag) {
+    public void handleUpdateTag(CompoundTag tag) {
         this.load(tag);
     }
 

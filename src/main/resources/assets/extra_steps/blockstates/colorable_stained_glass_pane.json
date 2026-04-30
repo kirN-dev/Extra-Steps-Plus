@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north":  { "model": "extra_steps:block/colorable_stained_glass_pane" },
+    "facing=east":   { "model": "extra_steps:block/colorable_stained_glass_pane", "y": 90 },
+    "facing=south":  { "model": "extra_steps:block/colorable_stained_glass_pane", "y": 180 },
+    "facing=west":   { "model": "extra_steps:block/colorable_stained_glass_pane", "y": 270 }
+  }
+}

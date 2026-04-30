@@ -56,11 +56,12 @@ public class JEIExtraStepsPlugin implements IModPlugin {
 
         var craftingRecipes = manager.getAllRecipesFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING);
 
-        var woolRecipe = craftingRecipes.stream()
+        var raw_wool_recipe = craftingRecipes.stream()
                 .filter(r -> r.getId().getPath().contains("raw_wool_from_crumbled_wool"))
                 .toList();
 
-        registration.addRecipes(mezz.jei.api.constants.RecipeTypes.CRAFTING, woolRecipe);
+
+        registration.addRecipes(mezz.jei.api.constants.RecipeTypes.CRAFTING, raw_wool_recipe);
     }
 
     @Override

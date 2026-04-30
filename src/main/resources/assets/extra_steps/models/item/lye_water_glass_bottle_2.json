@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "extra_steps:item/lye_water_bottle_liquid_2",
+    "layer1": "extra_steps:item/lye_water_bottle"
+  }
+}

@@ -1,5 +1,6 @@
 package com.fireblaze.extra_steps.loot;
 
+import com.fireblaze.extra_steps.config.ModConfigHandler;
 import com.fireblaze.extra_steps.registry.ModItems;
 import com.fireblaze.extra_steps.util.GenericColorHelper;
 import com.google.common.base.Suppliers;
@@ -7,12 +8,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
@@ -41,6 +39,8 @@ public class ReplaceWoolItemModifier extends LootModifier {
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
 
+        if (ModConfigHandler.skipWoolProcess.get()) return generatedLoot;
+
         if (!context.getQueriedLootTableId().getPath().contains("entities")) {
             return generatedLoot;
         }
@@ -50,16 +50,13 @@ public class ReplaceWoolItemModifier extends LootModifier {
             ItemStack stack = generatedLoot.get(i);
 
             if (stack.is(ItemTags.WOOL)) {
+                ItemStack result;
+                if ((ModConfigHandler.enableAlwaysRawWoolDrop).get())
+                     result = new ItemStack(ModItems.RAW_WOOL.get(), stack.getCount());
+                else result = new ItemStack(toItem, stack.getCount());
 
-                ItemStack result = new ItemStack(toItem, stack.getCount());
-
-                // Wenn Zielitem Crumbled Wool ist -> Farbe übernehmen
-                if (toItem == ModItems.CRUMBLED_WOOL.get()) {
-
-                    int color = GenericColorHelper.getColorSmart(stack);
-                    GenericColorHelper.setColor(result, color);
-
-                }
+                int color = GenericColorHelper.getColorSmart(stack);
+                GenericColorHelper.setColor(result, color);
 
                 generatedLoot.set(i, result);
             }

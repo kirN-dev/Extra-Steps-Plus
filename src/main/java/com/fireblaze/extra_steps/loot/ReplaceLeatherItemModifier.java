@@ -1,16 +1,14 @@
 package com.fireblaze.extra_steps.loot;
 
+import com.fireblaze.extra_steps.config.ModConfigHandler;
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
@@ -40,7 +38,14 @@ public class ReplaceLeatherItemModifier extends LootModifier {
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
 
-        if (!context.getQueriedLootTableId().getPath().contains("entities")) {
+        if (ModConfigHandler.skipLeatherProcess.get()) return generatedLoot;
+
+        if (!context.getQueriedLootTableId().getPath().contains("entities")
+                || context.getQueriedLootTableId().getPath().contains("entities/cow")
+                || context.getQueriedLootTableId().getPath().contains("entities/horse")
+                || context.getQueriedLootTableId().getPath().contains("entities/mule")
+                || context.getQueriedLootTableId().getPath().contains("entities/llama")
+                || context.getQueriedLootTableId().getPath().contains("entities/boar")) {
             return generatedLoot;
         }
 

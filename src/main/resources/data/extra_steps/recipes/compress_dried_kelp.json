@@ -1,0 +1,7 @@
+{
+  "type": "extra_steps:processing",
+  "mode": "compressing",
+  "ingredient": { "item": "minecraft:dried_kelp" },
+  "ingredientAmount": 9,
+  "result": { "item": "minecraft:dried_kelp_block" }
+}

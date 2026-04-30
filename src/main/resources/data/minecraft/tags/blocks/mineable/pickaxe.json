@@ -1,5 +1,7 @@
 {
   "values": [
-    "extra_steps:lye_water_cauldron"
+    "extra_steps:lye_water_cauldron",
+    "extra_steps:colorable_terracotta",
+    "extra_steps:colorable_concrete"
   ]
 }

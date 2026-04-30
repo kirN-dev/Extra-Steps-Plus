@@ -50,20 +50,15 @@ public class JumpCompressionHandler {
         var recipe = recipeOpt.get();
         if (!recipe.ingredient.test(stack)) return;
 
-        basket.getInventoryHandler().extractItem(0, 1, false);
+        if (basket.getInventoryHandler().getStackInSlot(0).getCount() < recipe.getIngredientAmount()) return;
+        basket.getInventoryHandler().extractItem(0, recipe.getIngredientAmount(), false);
 
         ItemStack inputCopy = stack.copy();
         ItemStack drop;
 
 
-        if (stack.hasTag() && stack.getTag().contains(GenericColorHelper.FILL_FACTOR)) {
-            // Dein eigener Wool Block
-            drop = new ItemStack(recipe.getResultItem(null).getItem());
 
-            // Farbe vom Input übernehmen
-            GenericColorHelper.copyColor(inputCopy, drop);
-
-        } else {
+        if (stack.is(ModItems.BRUSHED_WOOL.get()) && !(stack.hasTag() && stack.getTag().contains(GenericColorHelper.FILL_FACTOR))) {
             // Vanilla Wool in der richtigen Farbe
             // 1. Ermittle die Farbe vom Input
             int colorRGB = GenericColorHelper.getColorSmart(inputCopy);
@@ -76,7 +71,13 @@ public class JumpCompressionHandler {
 
             // 4. Erstelle das ItemStack zum Droppen
             drop = new ItemStack(vanillaWool.asItem());
-        }
+        } else if (stack.hasTag() && stack.getTag().contains(GenericColorHelper.FILL_FACTOR)) {
+            // Dein eigener Wool Block
+            drop = new ItemStack(recipe.getResultItem(null).getItem());
+
+            // Farbe vom Input übernehmen
+            GenericColorHelper.copyColor(inputCopy, drop);
+        } else drop = new ItemStack(recipe.getResultItem(null).getItem());
 
         player.level().addFreshEntity(new net.minecraft.world.entity.item.ItemEntity(
                 player.level(),

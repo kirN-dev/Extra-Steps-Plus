@@ -1,5 +1,6 @@
 package com.fireblaze.extra_steps.loot;
 
+import com.fireblaze.extra_steps.config.ModConfigHandler;
 import com.google.common.base.Suppliers;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -35,6 +36,8 @@ public class ReplaceItemModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+
+        if (ModConfigHandler.skipLeatherProcess.get()) return generatedLoot;
 
         for (LootItemCondition condition : this.conditions) {
             if (!condition.test(context)) {

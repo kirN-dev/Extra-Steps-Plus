@@ -6,6 +6,11 @@
   "block.extra_steps.spinning_wheel": "Spinning Wheel",
   "block.extra_steps.wooden_cauldron": "Wooden Cauldron",
   "block.extra_steps.colorable_wool": "Wool",
+  "block.extra_steps.colorable_stained_glass": "Stained Glass",
+  "block.extra_steps.colorable_stained_glass_pane": "Stained Glass Pane",
+  "block.extra_steps.colorable_terracotta": "Terracotta",
+  "block.extra_steps.colorable_concrete": "Concrete",
+  "block.extra_steps.colorable_concrete_powder": "Concrete Powder",
 
   "item.extra_steps.crumbled_wool": "Crumbled Wool",
   "item.extra_steps.raw_wool": "Raw Wool",
@@ -30,5 +35,6 @@
   "fluid.extra_steps.lye_water": "Lye Water",
   "block.extra_steps.lye_water": "Lye Water",
   "fluid_type.extra_steps.lye_water_fluid": "Lye Water",
-  "item.extra_steps.lye_water_bucket": "Lye-Water Bucket"
+  "item.extra_steps.lye_water_bucket": "Lye-Water Bucket",
+  "item.extra_steps.lye_water_glass_bottle": "Lye-Water Bottle"
 }

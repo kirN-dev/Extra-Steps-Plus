@@ -29,7 +29,6 @@ public class ProcessingItemRegistry {
 
             ProcessingMode mode = recipe.getMode();
 
-            // 🔥 NUR diese Modi berücksichtigen
             if (mode == ProcessingMode.DRYING ||
                     mode == ProcessingMode.SCRAPING ||
                     mode == ProcessingMode.BRUSHING) {

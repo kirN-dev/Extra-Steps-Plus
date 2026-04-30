@@ -1,6 +1,7 @@
 package com.fireblaze.extra_steps.item;
 
 import com.fireblaze.extra_steps.util.GenericColorHelper;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -28,6 +29,19 @@ public class ModLeatherArmorItem extends ArmorItem implements DyeableLeatherItem
     public static void setArmorColor(ItemStack armor, int rgb) {
         if (armor.getItem() instanceof DyeableLeatherItem) {
             ((DyeableLeatherItem) armor.getItem()).setColor(armor, rgb);
+        }
+    }
+
+    public static void clearArmorColor(ItemStack stack) {
+        CompoundTag tag = stack.getTag();
+        if (tag != null && tag.contains("display", 10)) { // 10 = CompoundTag
+            CompoundTag display = tag.getCompound("display");
+            display.remove("color");
+
+            // Optional: display entfernen, wenn leer
+            if (display.isEmpty()) {
+                tag.remove("display");
+            }
         }
     }
 }

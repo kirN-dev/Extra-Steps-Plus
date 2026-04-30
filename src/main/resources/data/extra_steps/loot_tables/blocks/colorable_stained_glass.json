@@ -1,0 +1,45 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:alternatives",
+          "children": [
+            {
+              "type": "minecraft:item",
+              "name": "extra_steps:colorable_stained_glass",
+              "conditions": [
+                {
+                  "condition": "minecraft:match_tool",
+                  "predicate": {
+                    "enchantments": [
+                      {
+                        "enchantment": "minecraft:silk_touch",
+                        "levels": { "min": 1 }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "functions": [
+                {
+                  "function": "minecraft:copy_nbt",
+                  "source": "block_entity",
+                  "ops": [
+                    { "source": "color", "target": "color", "op": "replace" },
+                    { "source": "fillFactor", "target": "fillFactor", "op": "replace" },
+                    { "source": "colorList0", "target": "colorList0", "op": "replace" },
+                    { "source": "colorList1", "target": "colorList1", "op": "replace" },
+                    { "source": "colorList2", "target": "colorList2", "op": "replace" }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

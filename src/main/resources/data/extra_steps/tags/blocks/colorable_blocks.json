@@ -1,0 +1,9 @@
+{
+  "values": [
+    "extra_steps:colorable_wool",
+    "extra_steps:colorable_terracotta",
+    "extra_steps:colorable_concrete",
+    "extra_steps:colorable_stained_glass",
+    "extra_steps:colorable_stained_glass_pane"
+  ]
+}

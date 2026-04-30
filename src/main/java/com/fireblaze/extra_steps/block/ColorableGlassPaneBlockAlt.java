@@ -1,31 +1,27 @@
 package com.fireblaze.extra_steps.block;
 
-import com.fireblaze.extra_steps.blockentity.ColorableWoolBlockEntity;
+import com.fireblaze.extra_steps.blockentity.ColorableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class ColorableWoolBlock extends Block implements EntityBlock {
-
-    public ColorableWoolBlock(Properties props) {
-        super(props);
+public class ColorableGlassPaneBlockAlt extends IronBarsBlock implements EntityBlock {
+    public ColorableGlassPaneBlockAlt(Properties p_53640_) {
+        super(p_53640_);
     }
 
     @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
 
-        if(level.getBlockEntity(pos) instanceof ColorableWoolBlockEntity be) {
+        if(level.getBlockEntity(pos) instanceof ColorableBlockEntity be) {
             CompoundTag tag = stack.getTag();
             if (tag == null) return;
 
@@ -42,7 +38,7 @@ public class ColorableWoolBlock extends Block implements EntityBlock {
 
                 if (tag.contains(key)) {
                     int[] arr = tag.getIntArray(key);
-                    be.setColorList(i, arr); // ebenfalls Setter nötig
+                    be.setColorList(i, arr);
                 }
             }
 
@@ -52,7 +48,7 @@ public class ColorableWoolBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new ColorableWoolBlockEntity(pos, state);
+        return new ColorableBlockEntity(pos, state);
     }
 
     @Override
@@ -61,7 +57,7 @@ public class ColorableWoolBlock extends Block implements EntityBlock {
                               @Nullable BlockEntity blockEntity,
                               ItemStack tool) {
 
-        if (!level.isClientSide && blockEntity instanceof ColorableWoolBlockEntity be) {
+        if (!level.isClientSide && blockEntity instanceof ColorableBlockEntity be) {
 
             ItemStack stack = new ItemStack(this);
 

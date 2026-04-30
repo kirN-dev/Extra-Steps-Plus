@@ -1,6 +1,6 @@
 package com.fireblaze.extra_steps.util;
 
-import com.fireblaze.extra_steps.blockentity.LyeWaterCauldronBlockEntity;
+import com.fireblaze.extra_steps.blockentity.WoodenLyeWaterCauldronBlockEntity;
 import com.fireblaze.extra_steps.client.color.GenericColors;
 import com.fireblaze.extra_steps.registry.ModItems;
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +13,6 @@ import net.minecraft.world.level.block.Block;
 
 
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 public class GenericColorHelper {
 
@@ -85,14 +84,71 @@ public class GenericColorHelper {
                     targetTag.putIntArray(key, sourceTag.getIntArray(key));
                 }
             }
-
-
         }
 
         return target;
     }
 
-    public static ItemStack copyColorFromLyeWater(LyeWaterCauldronBlockEntity source, ItemStack target, boolean onlyAvailableInteractions) {
+    public static ItemStack copyColorFromLyeWater(GenericCauldronInteractions source, ItemStack target, boolean onlyAvailableInteractions) {
+        CompoundTag sourceTag = source.getUpdateTag();
+        CompoundTag targetTag = new CompoundTag();
+        target.setTag(targetTag);
+
+        if (!onlyAvailableInteractions) {
+            // Kopiert die Hauptfarbe
+            if (sourceTag.contains(COLOR_TAG)) {
+                targetTag.putInt(COLOR_TAG, sourceTag.getInt(COLOR_TAG));
+            }
+
+            // Kopiert die fillFactor (Saturation Ratio)
+            if (sourceTag.contains(FILL_FACTOR)) {
+                targetTag.putFloat(FILL_FACTOR, sourceTag.getFloat(FILL_FACTOR));
+            }
+
+            for (int i = 0; i < 3; i++) {
+                String key = COLOR_LIST + i;
+                if (sourceTag.contains(key)) {
+                    int[] colors = sourceTag.getIntArray(key);
+                    targetTag.putIntArray(key, colors);
+                }
+
+                String countKey = COLOR_COUNT + i;
+                if (sourceTag.contains(countKey)) {
+                    int colorCountPerLayer = sourceTag.getInt(countKey);
+                    targetTag.putInt(countKey, colorCountPerLayer);
+                }
+            }
+        }
+
+        if (target.is(ModItems.LYE_WATER_BUCKET.get())) {
+            for (int i = 0; i < 3; i++) {
+                String key = AVAILABLE_INTERACTIONS + i;
+                if (sourceTag.contains(key)) {
+                    targetTag.putInt(key, sourceTag.getInt(key));
+                }
+            }
+        }
+
+        if (target.is(ModItems.LYE_WATER_GLASS_BOTTLE.get())) {
+            int totalAI = 0;
+            for (int i = 0; i < 3; i++) {
+                String key = AVAILABLE_INTERACTIONS + i;
+                if (sourceTag.contains(key)) {
+
+                    totalAI += sourceTag.getInt(key);
+                    if (totalAI >= 3) {
+                        targetTag.putInt(AVAILABLE_INTERACTIONS, 3);
+                        break;
+                    }
+                }
+            }
+            targetTag.putInt(AVAILABLE_INTERACTIONS, totalAI);
+        }
+
+        return target;
+    }
+
+    public static ItemStack copyColorFromWoodenLyeWater(WoodenLyeWaterCauldronBlockEntity source, ItemStack target, boolean onlyAvailableInteractions) {
         CompoundTag sourceTag = source.getUpdateTag();
         CompoundTag targetTag = target.getOrCreateTag();
 
@@ -122,20 +178,34 @@ public class GenericColorHelper {
             }
         }
 
-        if (!target.is(ModItems.LYE_WATER_BUCKET.get())) return target;
-        for (int i = 0; i < 3; i++) {
-            String key = AVAILABLE_INTERACTIONS + i;
-            if (sourceTag.contains(key)) {
-                targetTag.putInt(key, sourceTag.getInt(key));
+        if (target.is(ModItems.LYE_WATER_BUCKET.get())) {
+            for (int i = 0; i < 3; i++) {
+                String key = AVAILABLE_INTERACTIONS + i;
+                if (sourceTag.contains(key)) {
+                    targetTag.putInt(key, sourceTag.getInt(key));
+                }
             }
+        }
+
+        if (target.is(ModItems.LYE_WATER_GLASS_BOTTLE.get())) {
+            int totalAI = 0;
+            for (int i = 0; i < 3; i++) {
+                String key = AVAILABLE_INTERACTIONS + i;
+                if (sourceTag.contains(key)) {
+
+                    totalAI += sourceTag.getInt(key);
+                    if (totalAI >= 3) {
+                        targetTag.putInt(AVAILABLE_INTERACTIONS, 3);
+                        break;
+                    }
+                }
+            }
+            targetTag.putInt(AVAILABLE_INTERACTIONS, totalAI);
         }
 
         return target;
     }
 
-    /**
-     * Entfernt die Farbe eines Items
-     */
     public static ItemStack clearColor(ItemStack stack) {
         CompoundTag tag = stack.getTag();
 

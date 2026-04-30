@@ -1,5 +1,6 @@
 package com.fireblaze.extra_steps.event;
 
+import com.fireblaze.extra_steps.config.ModConfigHandler;
 import com.fireblaze.extra_steps.registry.ModItems;
 import com.fireblaze.extra_steps.util.GenericColorHelper;
 import net.minecraft.tags.ItemTags;
@@ -11,17 +12,19 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
 @Mod.EventBusSubscriber
 public class ShearHandler {
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onShear(PlayerInteractEvent.EntityInteract event) {
+
+        if (ModConfigHandler.skipWoolProcess.get()) return;
 
         ItemStack shears = event.getItemStack();
 

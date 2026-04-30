@@ -28,12 +28,54 @@ public class ModBlockEntities {
                             ModBlocks.BASKET.get()
                     ).build(null));
 
-    public static final RegistryObject<BlockEntityType<ColorableWoolBlockEntity>> COLORABLE_WOOL_BE =
+    // THIS IS JUST FOR COMPATIBILITY WITH WORLDS FROM OLDER MOD VERSIONS, DON'T USE IT ANYMORE FROM 1.1.0 ON
+    public static final RegistryObject<BlockEntityType<ColorableBlockEntity>> COLORABLE_WOOL_BE_DEPRECATED =
             BLOCK_ENTITIES.register("colorable_wool",
                     () -> BlockEntityType.Builder.of(
-                            ColorableWoolBlockEntity::new,
-                            ModBlocks.COLORABLE_WOOL.get()
+                            ColorableBlockEntity::new
                     ).build(null));
+
+    public static final RegistryObject<BlockEntityType<ColorableBlockEntity>> COLORABLE_BE =
+            BLOCK_ENTITIES.register("colorable_block",
+                    () -> BlockEntityType.Builder.of(
+                            ColorableBlockEntity::new,
+                            ModBlocks.COLORABLE_WOOL.get(),
+                            ModBlocks.COLORABLE_TERRACOTTA.get(),
+                            ModBlocks.COLORABLE_CONCRETE_POWDER.get(),
+                            ModBlocks.COLORABLE_CONCRETE.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<ColorableGlassBlockEntity>> COLORABLE_GLASS_BE =
+            BLOCK_ENTITIES.register("colorable_glass_block",
+                    () -> BlockEntityType.Builder.of(
+                            ColorableGlassBlockEntity::new,
+                            ModBlocks.COLORABLE_STAINED_GLASS.get()
+                    ).build(null));
+
+    public static final RegistryObject<BlockEntityType<ColorableGlassPaneBlockEntity>> COLORABLE_GLASS_PANE_BE =
+            BLOCK_ENTITIES.register("colorable_glass_pane_block",
+                    () -> BlockEntityType.Builder.of(
+                            ColorableGlassPaneBlockEntity::new,
+                            ModBlocks.COLORABLE_STAINED_GLASS_PANE.get()
+                    ).build(null));
+
+
+    public static final RegistryObject<BlockEntityType<WoodenCauldronBlockEntity>> WOODEN_CAULDRON_BE =
+            BLOCK_ENTITIES.register("wooden_cauldron",
+                    () -> BlockEntityType.Builder.of(
+                            WoodenCauldronBlockEntity::new,
+                            ModBlocks.WOODEN_CAULDRON.get(),
+                            ModBlocks.WOODEN_WATER_CAULDRON.get()
+                    ).build(null));
+
+
+    public static final RegistryObject<BlockEntityType<WoodenLyeWaterCauldronBlockEntity>> WOODEN_LYE_WATER_CAULDRON_BE =
+            BLOCK_ENTITIES.register("wooden_lye_water_cauldron",
+                    () -> BlockEntityType.Builder.of(
+                            WoodenLyeWaterCauldronBlockEntity::new,
+                            ModBlocks.WOODEN_LYE_WATER_CAULDRON.get()
+                    ).build(null));
+
 
     public static final RegistryObject<BlockEntityType<LyeWaterCauldronBlockEntity>> LYE_WATER_CAULDRON_BE =
             BLOCK_ENTITIES.register("lye_water_cauldron",

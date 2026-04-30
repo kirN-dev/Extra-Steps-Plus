@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "extra_steps:colorable_terracotta",
+          "conditions": [
+            {
+              "condition": "minecraft:survives_explosion"
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "tier": "stone"
+              }
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "source": "block_entity",
+              "ops": [
+                { "source": "color", "target": "color", "op": "replace" },
+                { "source": "fillFactor", "target": "fillFactor", "op": "replace" },
+                { "source": "colorList0", "target": "colorList0", "op": "replace" },
+                { "source": "colorList1", "target": "colorList1", "op": "replace" },
+                { "source": "colorList2", "target": "colorList2", "op": "replace" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

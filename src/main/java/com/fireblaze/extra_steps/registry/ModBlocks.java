@@ -62,8 +62,65 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> COLORABLE_WOOL =
             registerBlock("colorable_wool",
-                    () -> new ColorableWoolBlock(
+                    () -> new ColorableBlock(
                             BlockBehaviour.Properties.copy(Blocks.WHITE_WOOL)
+                    ));
+
+    public static final RegistryObject<Block> COLORABLE_STAINED_GLASS =
+            registerBlock("colorable_stained_glass",
+                    () -> new ColorableGlassBlock(
+                            BlockBehaviour.Properties.copy(Blocks.WHITE_STAINED_GLASS).noOcclusion()
+                    ));
+
+    public static final RegistryObject<Block> COLORABLE_STAINED_GLASS_PANE =
+            registerBlock("colorable_stained_glass_pane",
+                    () -> new ColorableGlassPaneBlock(
+                            BlockBehaviour.Properties.copy(Blocks.WHITE_STAINED_GLASS_PANE)
+                    ));
+
+    /*
+    public static final RegistryObject<Block> COLORABLE_STAINED_GLASS_PANE =
+            registerBlock("colorable_stained_glass_pane",
+                    () -> new ColorableGlassPaneBlockAlt(
+                            BlockBehaviour.Properties.copy(Blocks.WHITE_STAINED_GLASS_PANE)
+                    ));
+
+     */
+
+    public static final RegistryObject<Block> COLORABLE_TERRACOTTA =
+            registerBlock("colorable_terracotta",
+                    () -> new ColorableBlock(
+                            BlockBehaviour.Properties.copy(Blocks.WHITE_TERRACOTTA)
+                    ));
+
+    public static final RegistryObject<Block> COLORABLE_CONCRETE =
+            registerBlock("colorable_concrete",
+                    () -> new ColorableBlock(
+                            BlockBehaviour.Properties.copy(Blocks.WHITE_CONCRETE)
+                    ));
+
+    public static final RegistryObject<Block> COLORABLE_CONCRETE_POWDER =
+            registerBlock("colorable_concrete_powder",
+                    () -> new ColorableConcretePowderBlock(
+                            BlockBehaviour.Properties.copy(Blocks.WHITE_CONCRETE_POWDER)
+                    ));
+
+    public static final RegistryObject<Block> WOODEN_CAULDRON =
+            registerBlock("wooden_cauldron",
+                    () -> new WoodenCauldronBlock(
+                            BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)
+                    ));
+
+    public static final RegistryObject<Block> WOODEN_WATER_CAULDRON =
+            BLOCKS.register("wooden_water_cauldron",
+                    () -> new WoodenWaterCauldronBlock(
+                            BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)
+                    ));
+
+    public static final RegistryObject<Block> WOODEN_LYE_WATER_CAULDRON =
+            BLOCKS.register("wooden_lye_water_cauldron",
+                    () -> new WoodenLyeWaterCauldronBlock(
+                            BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS)
                     ));
 
     public static final RegistryObject<Block> LYE_WATER_CAULDRON =

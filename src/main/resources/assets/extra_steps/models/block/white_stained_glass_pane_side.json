@@ -1,0 +1,19 @@
+{
+  "parent": "minecraft:block/template_glass_pane_side",
+  "textures": {
+    "edge": "extra_steps:block/white_stained_glass_pane_top",
+    "pane": "extra_steps:block/white_stained_glass"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 7],
+      "to": [16, 16, 9],
+      "faces": {
+        "north": {"texture": "#pane", "tintindex": 0},
+        "south": {"texture": "#pane", "tintindex": 0},
+        "up":    {"texture": "#pane", "tintindex": 0},
+        "down":  {"texture": "#pane", "tintindex": 0}
+      }
+    }
+  ]
+}

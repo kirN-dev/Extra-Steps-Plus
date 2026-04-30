@@ -20,13 +20,20 @@ public class ProcessingRecipe implements Recipe<SimpleContainer> {
     private final RecipeType<ProcessingRecipe> type;
     private final ProcessingMode mode;
 
-    public ProcessingRecipe(ResourceLocation id, Ingredient ingredient, ItemStack result, int time, RecipeType<ProcessingRecipe> type, ProcessingMode mode) {
+    private final int ingredientAmount;
+
+    public ProcessingRecipe(ResourceLocation id, Ingredient ingredient, ItemStack result, int time, RecipeType<ProcessingRecipe> type, ProcessingMode mode, int ingredientAmount) {
         this.id = id;
         this.ingredient = ingredient;
         this.result = result;
         this.time = time;
         this.type = type;
         this.mode = mode;
+        this.ingredientAmount = ingredientAmount;
+    }
+
+    public int getIngredientAmount() {
+        return ingredientAmount;
     }
 
     public int getTime() {
