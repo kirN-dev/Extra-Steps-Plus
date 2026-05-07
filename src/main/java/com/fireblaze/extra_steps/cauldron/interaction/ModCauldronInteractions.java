@@ -1,4 +1,4 @@
-package com.fireblaze.extra_steps.fluid;
+package com.fireblaze.extra_steps.cauldron.interaction;
 
 import com.fireblaze.extra_steps.blockentity.LyeWaterCauldronBlockEntity;
 import com.fireblaze.extra_steps.client.color.GenericColors;
@@ -393,12 +393,49 @@ public class ModCauldronInteractions {
         });
 
         BuiltInRegistries.ITEM.forEach(item -> {
-            if (!LYE_WATER.containsKey(item)) {
-                LYE_WATER.put(item, ModCauldronInteractions::handleCleaning);
-            }
-            if (!CauldronInteraction.WATER.containsKey(item)) {
-                CauldronInteraction.WATER.put(item, ModCauldronInteractions::handleLyeWaterCreation);
-            }
+            CauldronInteraction original = CauldronInteraction.WATER.get(item);
+
+            CauldronInteraction.WATER.put(item, (state, level, pos, player, hand, stack) -> {
+
+                // 1. Vanilla
+                if (original != null) {
+                    InteractionResult vanillaResult = original.interact(state, level, pos, player, hand, stack);
+                    if (vanillaResult.consumesAction()) return vanillaResult;
+                }
+
+                // 2. Lye Water Creation
+                InteractionResult lyeWaterResult = ModCauldronInteractions.handleLyeWaterCreation(
+                        state, level, pos, player, hand, stack
+                );
+                if (lyeWaterResult.consumesAction()) return lyeWaterResult;
+
+                // 3. Mixing
+                return CauldronMixingHandler.handleMixing(
+                        state, level, pos, player, hand, stack
+                );
+            });
+        });
+
+        BuiltInRegistries.ITEM.forEach(item -> {
+            CauldronInteraction originalEmpty = CauldronInteraction.EMPTY.get(item);
+
+            CauldronInteraction.EMPTY.put(item, (state, level, pos, player, hand, stack) -> {
+
+                if (hand == InteractionHand.OFF_HAND) {
+                    return InteractionResult.PASS;
+                }
+
+                // 1. Vanilla
+                if (originalEmpty != null) {
+                    InteractionResult vanillaResult = originalEmpty.interact(state, level, pos, player, hand, stack);
+                    if (vanillaResult.consumesAction()) return vanillaResult;
+                }
+
+                // 2. Mixing
+                return CauldronMixingHandler.handleMixing(
+                        state, level, pos, player, hand, stack
+                );
+            });
         });
     }
 }

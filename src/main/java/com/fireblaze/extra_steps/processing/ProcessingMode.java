@@ -13,6 +13,7 @@ public enum ProcessingMode {
     SCRAPING("scraping"),
     //SPINNING("spinning"),
     CLEANING("cleaning"),
+    MIXING("mixing"),
     LYE_WATER("lye_water");
 
     private final String id;

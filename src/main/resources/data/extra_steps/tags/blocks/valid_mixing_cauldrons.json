@@ -1,0 +1,8 @@
+{
+  "values": [
+    "extra_steps:wooden_cauldron",
+    "extra_steps:wooden_water_cauldron",
+    "minecraft:cauldron",
+    "minecraft:water_cauldron"
+  ]
+}

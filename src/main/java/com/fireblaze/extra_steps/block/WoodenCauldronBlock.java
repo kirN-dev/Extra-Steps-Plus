@@ -1,22 +1,17 @@
 package com.fireblaze.extra_steps.block;
 
 import com.fireblaze.extra_steps.blockentity.WoodenCauldronBlockEntity;
-import com.fireblaze.extra_steps.blockentity.WoodenLyeWaterCauldronBlockEntity;
-import com.fireblaze.extra_steps.fluid.WoodenCauldronInteractions;
+import com.fireblaze.extra_steps.cauldron.interaction.WoodenCauldronInteractions;
 import com.fireblaze.extra_steps.registry.ModBlockEntities;
-import com.fireblaze.extra_steps.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
 import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Random;
 
 public class WoodenCauldronBlock extends AbstractCauldronBlock implements EntityBlock {
 

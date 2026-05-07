@@ -3,14 +3,12 @@
 
   "block.extra_steps.drying_rack": "Drying Rack",
   "block.extra_steps.basket": "Basket",
-  "block.extra_steps.spinning_wheel": "Spinning Wheel",
   "block.extra_steps.wooden_cauldron": "Wooden Cauldron",
-  "block.extra_steps.colorable_wool": "Wool",
-  "block.extra_steps.colorable_stained_glass": "Stained Glass",
-  "block.extra_steps.colorable_stained_glass_pane": "Stained Glass Pane",
-  "block.extra_steps.colorable_terracotta": "Terracotta",
-  "block.extra_steps.colorable_concrete": "Concrete",
-  "block.extra_steps.colorable_concrete_powder": "Concrete Powder",
+  "block.extra_steps.colorable_wool": "ES Wool",
+  "block.extra_steps.colorable_stained_glass": "ES Stained Glass",
+  "block.extra_steps.colorable_stained_glass_pane": "ES Stained Glass Pane",
+  "block.extra_steps.colorable_terracotta": "ES Terracotta",
+  "block.extra_steps.colorable_concrete": "ES Concrete",
 
   "item.extra_steps.crumbled_wool": "Crumbled Wool",
   "item.extra_steps.raw_wool": "Raw Wool",
@@ -27,7 +25,7 @@
   "item.extra_steps.raw_polar_bear_pelt": "Polar Bear Pelt",
   "item.extra_steps.raw_panda_pelt": "Panda Pelt",
   "item.extra_steps.raw_equine_hide": "Equine Rawhide",
-  "item.extra_steps.raw_llama_hide": "Llama rawhide",
+  "item.extra_steps.raw_llama_hide": "Llama Rawhide",
   "item.extra_steps.scraped_hide": "Scraped Rawhide",
   "item.extra_steps.wet_hide": "Wet Hide",
 

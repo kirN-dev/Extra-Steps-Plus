@@ -52,7 +52,9 @@ public class BasketBlock extends Block implements EntityBlock {
         }
 
         var recipe = basket.getRecipeForItem(held, ProcessingMode.COMPRESSING).orElse(null);
-        if(recipe != null && recipe.ingredient.test(held)) {
+        boolean matchesIngredient = recipe.getIngredients().stream()
+                .anyMatch(ingredient -> ingredient.test(held));
+        if(matchesIngredient) {
             ItemStack inSlot = inv.getStackInSlot(0);
 
             // --- Korb ist leer → einfach einfüllen ---

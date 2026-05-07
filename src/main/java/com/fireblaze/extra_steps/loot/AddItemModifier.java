@@ -38,7 +38,7 @@ public class AddItemModifier extends LootModifier {
             }
         }
 
-        int count = context.getRandom().nextInt(2); // 1-3 wie Vanilla Leder
+        int count = context.getRandom().nextInt(2);
 
         int looting = context.getLootingModifier();
         if (looting > 0) {

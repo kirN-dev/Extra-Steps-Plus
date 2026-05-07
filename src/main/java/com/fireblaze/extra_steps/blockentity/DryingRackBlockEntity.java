@@ -136,20 +136,25 @@ public class DryingRackBlockEntity extends MachineBlockEntity {
         // --- Drying Mode ---
         Optional<ProcessingRecipe> dryingRecipe = getRecipeByMode(ProcessingMode.DRYING);
 
-        if (dryingRecipe.isPresent() && dryingRecipe.get().ingredient.test(stack)) {
-            float speed = getProcessingSpeed();
-            clientSpeed = speed;
+        if (dryingRecipe.isEmpty()) {
+            dryingTime = 0;
+            return;
+        }
 
-            dryingTime += speed;
-            dryingTime = Math.max(dryingTime, -200);
+        ProcessingRecipe recipe = dryingRecipe.get();
 
-            updateItemProgress(stack, dryingTime, dryingRecipe.get().getTime());
-            markForRenderUpdate();
+        float speed = getProcessingSpeed();
+        clientSpeed = speed;
 
-            if(dryingTime >= dryingRecipe.get().getTime()) {
-                processItem(dryingRecipe.get());
-                dryingTime = 0;
-            }
+        dryingTime += speed;
+        dryingTime = Math.max(dryingTime, -200);
+
+        updateItemProgress(stack, dryingTime, recipe.getTime());
+        markForRenderUpdate();
+
+        if (dryingTime >= recipe.getTime()) {
+            processItem(recipe);
+            dryingTime = 0;
         }
     }
 

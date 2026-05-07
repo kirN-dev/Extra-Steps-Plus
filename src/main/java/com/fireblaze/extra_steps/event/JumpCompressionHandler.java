@@ -17,6 +17,8 @@ import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Objects;
+
 @Mod.EventBusSubscriber(modid = ExtraSteps.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class JumpCompressionHandler {
 
@@ -48,7 +50,9 @@ public class JumpCompressionHandler {
         if (recipeOpt.isEmpty()) return;
 
         var recipe = recipeOpt.get();
-        if (!recipe.ingredient.test(stack)) return;
+        boolean matchesIngredient = recipe.getIngredients().stream()
+                .anyMatch(ingredient -> ingredient.test(stack));
+        if (!matchesIngredient) return;
 
         if (basket.getInventoryHandler().getStackInSlot(0).getCount() < recipe.getIngredientAmount()) return;
         basket.getInventoryHandler().extractItem(0, recipe.getIngredientAmount(), false);
@@ -58,7 +62,7 @@ public class JumpCompressionHandler {
 
 
 
-        if (stack.is(ModItems.BRUSHED_WOOL.get()) && !(stack.hasTag() && stack.getTag().contains(GenericColorHelper.FILL_FACTOR))) {
+        if (stack.is(ModItems.BRUSHED_WOOL.get()) && !(stack.hasTag() && Objects.requireNonNull(stack.getTag()).contains(GenericColorHelper.FILL_FACTOR))) {
             // Vanilla Wool in der richtigen Farbe
             // 1. Ermittle die Farbe vom Input
             int colorRGB = GenericColorHelper.getColorSmart(inputCopy);

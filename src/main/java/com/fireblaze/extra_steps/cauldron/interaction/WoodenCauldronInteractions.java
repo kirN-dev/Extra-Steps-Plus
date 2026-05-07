@@ -1,4 +1,4 @@
-package com.fireblaze.extra_steps.fluid;
+package com.fireblaze.extra_steps.cauldron.interaction;
 
 import com.fireblaze.extra_steps.blockentity.WoodenLyeWaterCauldronBlockEntity;
 import com.fireblaze.extra_steps.client.color.GenericColors;
@@ -24,7 +24,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -456,113 +455,6 @@ public class WoodenCauldronInteractions {
         });
 
 
-        /*
-        // CLEANING & DYEING
-        List<ProcessingRecipe> cleaningRecipes = level2.getRecipeManager()
-                .getAllRecipesFor(ModRecipeTypes.PROCESSING.get())
-                .stream()
-                .filter(r -> r.getMode() == ProcessingMode.CLEANING)
-                .toList();
-
-        for (ProcessingRecipe recipe : cleaningRecipes) {
-            for (ItemStack itemStack : recipe.ingredient.getItems()) {
-                Item item = itemStack.getItem();
-
-                WOODEN_LYE_WATER.put(item, (state, level, pos, player, hand, stack) -> {
-                    int currentLevel = state.getValue(LayeredCauldronBlock.LEVEL);
-
-                    if (currentLevel == 0) return InteractionResult.PASS;
-
-                    if (!level.isClientSide) {
-                        ItemStack result = recipe.getResultItem(null).copy();
-
-                        // Get color if colored, exclude non-colorable items
-                        if (level.getBlockEntity(pos) instanceof WoodenLyeWaterCauldronBlockEntity be) {
-
-                            InteractionResult returnValue = CauldronInteractionHelper.applyLyeColorIfColorable(be, stack, result);
-                            if (returnValue != null) return returnValue;
-
-                            // if stack and result are the same, override instead of replace
-                            if (recipe.getResultItem(null).is(item)) {
-                                if (stack.hasTag() && !Objects.requireNonNull(stack.getTag()).contains(GenericColorHelper.FILL_FACTOR)) {
-                                    GenericColorHelper.copyColorFromLyeWater(be, stack, false);
-                                }
-
-                                GenericColorHelper.setColor(stack, be.getColor());
-                                ModLeatherArmorItem.setArmorColor(stack, be.getColor());
-
-                                CauldronInteractionHelper.drainLevel(
-                                        level,
-                                        pos,
-                                        state,
-                                        currentLevel,
-                                        1,
-                                        be,
-                                        ModBlocks.WOODEN_CAULDRON.get().defaultBlockState()
-                                );
-
-                                player.level().playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.5f, 1.0f);
-                                return InteractionResult.sidedSuccess(false);
-                            }
-                        }
-
-                        // Replace Item
-                        CauldronInteractionHelper.replaceItemForPlayer(player, stack, result);
-                        player.level().playSound(null, pos, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.5f, 1.0f);
-
-                        // Edit Water Level
-                        if (level.getBlockEntity(pos) instanceof WoodenLyeWaterCauldronBlockEntity be) {
-                            CauldronInteractionHelper.drainLevel(
-                                    level,
-                                    pos,
-                                    state,
-                                    currentLevel,
-                                    1,
-                                    be,
-                                    ModBlocks.WOODEN_CAULDRON.get().defaultBlockState()
-                            );
-                        }
-                    }
-
-                    return InteractionResult.sidedSuccess(level.isClientSide);
-                });
-            }
-        }
-
-        // WATER -> LYE WATER
-        List<ProcessingRecipe> lyeWaterRecipes = level2.getRecipeManager()
-                .getAllRecipesFor(ModRecipeTypes.PROCESSING.get())
-                .stream()
-                .filter(r -> r.getMode() == ProcessingMode.LYE_WATER)
-                .toList();
-
-        for (ProcessingRecipe recipe : lyeWaterRecipes) {
-            for (ItemStack itemStack : recipe.ingredient.getItems()) {
-                Item item = itemStack.getItem();
-                WOODEN_WATER.put(item, (state, level, pos, player, hand, stack) -> {
-
-                    if (!level.isClientSide) {
-                        stack.shrink(1);
-
-                        int currentLevel = state.getValue(LayeredCauldronBlock.LEVEL);
-
-                        level.setBlockAndUpdate(pos,
-                                ModBlocks.WOODEN_LYE_WATER_CAULDRON.get()
-                                        .defaultBlockState()
-                                        .setValue(LayeredCauldronBlock.LEVEL, currentLevel)
-                        );
-
-                        level.playSound(null, pos, SoundEvents.BREWING_STAND_BREW, SoundSource.BLOCKS, 0.5f, 1.0f);
-                    }
-
-                    return InteractionResult.sidedSuccess(level.isClientSide);
-                });
-            }
-        }
-        */
-
-
-
         // COLORS -> LYE WATER CAULDRON
         for (var entry : CauldronInteractionHelper.DYE_MAP.entrySet()) {
             GenericColors color = entry.getKey();
@@ -613,9 +505,52 @@ public class WoodenCauldronInteractions {
             if (!WOODEN_LYE_WATER.containsKey(item)) {
                 WOODEN_LYE_WATER.put(item, WoodenCauldronInteractions::handleCleaning);
             }
-            if (!WOODEN_WATER.containsKey(item)) {
-                WOODEN_WATER.put(item, WoodenCauldronInteractions::handleLyeWaterCreation);
-            }
+        });
+
+        BuiltInRegistries.ITEM.forEach(item -> {
+            CauldronInteraction original = WOODEN_WATER.get(item);
+
+            WOODEN_WATER.put(item, (state, level, pos, player, hand, stack) -> {
+
+                // 1. Vanilla
+                if (original != null) {
+                    InteractionResult vanillaResult = original.interact(state, level, pos, player, hand, stack);
+                    if (vanillaResult.consumesAction()) return vanillaResult;
+                }
+
+                // 2. Lye Water Creation
+                InteractionResult lyeWaterResult = ModCauldronInteractions.handleLyeWaterCreation(
+                        state, level, pos, player, hand, stack
+                );
+                if (lyeWaterResult.consumesAction()) return lyeWaterResult;
+
+                // 3. Mixing
+                return CauldronMixingHandler.handleMixing(
+                        state, level, pos, player, hand, stack
+                );
+            });
+        });
+
+        BuiltInRegistries.ITEM.forEach(item -> {
+            CauldronInteraction originalEmpty = WOODEN_EMPTY.get(item);
+
+            WOODEN_EMPTY.put(item, (state, level, pos, player, hand, stack) -> {
+
+                if (hand == InteractionHand.OFF_HAND) {
+                    return InteractionResult.PASS;
+                }
+
+                // 1. Vanilla
+                if (originalEmpty != null) {
+                    InteractionResult vanillaResult = originalEmpty.interact(state, level, pos, player, hand, stack);
+                    if (vanillaResult.consumesAction()) return vanillaResult;
+                }
+
+                // 2. Mixing
+                return CauldronMixingHandler.handleMixing(
+                        state, level, pos, player, hand, stack
+                );
+            });
         });
     }
 }

@@ -1,0 +1,33 @@
+{
+  "stir1": {
+    "sounds": [
+      "extra_steps:stir1"
+    ]
+  },
+  "stir2": {
+    "sounds": [
+      "extra_steps:stir2"
+    ]
+  },
+  "stir3": {
+    "sounds": [
+      "extra_steps:stir3"
+    ]
+  },
+  "stir4": {
+    "sounds": [
+      "extra_steps:stir4"
+    ]
+  },
+
+  "stir_finish1": {
+    "sounds": [
+      "extra_steps:stir_finish1"
+    ]
+  },
+  "stir_finish2": {
+    "sounds": [
+      "extra_steps:stir_finish2"
+    ]
+  }
+}

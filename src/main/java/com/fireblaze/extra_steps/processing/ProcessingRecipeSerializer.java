@@ -2,12 +2,15 @@ package com.fireblaze.extra_steps.processing;
 
 import com.fireblaze.extra_steps.registry.ModRecipeTypes;
 import com.google.gson.JsonObject;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRecipe> {
@@ -16,11 +19,34 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
 
     @Override
     public ProcessingRecipe fromJson(ResourceLocation id, JsonObject json) {
-        // Ingredient
-        Ingredient ingredient = Ingredient.fromJson(json.get("ingredient"));
-        int ingredientAmount = json.has("ingredientAmount") ? json.get("ingredientAmount").getAsInt() : 1;
+        // 🔹 Ingredients (alt + neu)
+        List<ProcessingRecipe.CountedIngredient> ingredients = new ArrayList<>();
 
-        // Result
+        if (json.has("ingredients")) {
+            // 👉 Neues System (Liste)
+            for (var element : json.getAsJsonArray("ingredients")) {
+
+                JsonObject obj = element.getAsJsonObject();
+
+                Ingredient ingredient = Ingredient.fromJson(obj);
+
+                int count = obj.has("count") ? obj.get("count").getAsInt() : 1;
+
+                ingredients.add(new ProcessingRecipe.CountedIngredient(ingredient, count));
+            }
+        } else if (json.has("ingredient")) {
+
+            Ingredient ingredient = Ingredient.fromJson(json.get("ingredient"));
+            ingredients.add(new ProcessingRecipe.CountedIngredient(ingredient, 1));
+        } else {
+            throw new IllegalStateException("Recipe " + id + " has no 'ingredient' or 'ingredients' field!");
+        }
+
+        int ingredientAmount = json.has("ingredientAmount")
+                ? json.get("ingredientAmount").getAsInt()
+                : 1;
+
+        // 🔹 Result
         ItemStack result;
         if (json.get("result").isJsonObject()) {
             JsonObject resultJson = json.getAsJsonObject("result");
@@ -30,47 +56,100 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
                     ))
             );
         } else {
-            // result ist ein String
             String resultItem = json.get("result").getAsString();
             result = new ItemStack(
-                    Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(resultItem)))
+                    Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(
+                            ResourceLocation.tryParse(resultItem)
+                    ))
             );
         }
 
-        // Menge
-        int resultAmount = json.has("resultAmount") ? json.get("resultAmount").getAsInt() : 1;
+        // 🔹 Result-Menge
+        int resultAmount = json.has("resultAmount")
+                ? json.get("resultAmount").getAsInt()
+                : 1;
         result.setCount(resultAmount);
 
+        // 🔹 Zeit & Mode
         int time = json.has("time") ? json.get("time").getAsInt() : 0;
-        ProcessingMode mode = ProcessingMode.fromString(json.has("mode") ? json.get("mode").getAsString() : "drying");
+        int stirCount = json.has("stir_count")
+                ? json.get("stir_count").getAsInt()
+                : 3;
 
-        return new ProcessingRecipe(id, ingredient, result, time, ModRecipeTypes.PROCESSING.get(), mode, ingredientAmount);
+        ProcessingMode mode = ProcessingMode.fromString(
+                json.has("mode") ? json.get("mode").getAsString() : "drying"
+        );
+
+        int waterCost = json.has("water_level_consumption")
+                ? json.get("water_level_consumption").getAsInt()
+                : 0;
+
+        return new ProcessingRecipe(
+                id,
+                ingredients,
+                result,
+                time,
+                ModRecipeTypes.PROCESSING.get(),
+                mode,
+                ingredientAmount,
+                waterCost,
+                stirCount
+        );
     }
 
     @Override
     public ProcessingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
-        Ingredient ingredient = Ingredient.fromNetwork(buf);
-        int ingredientAmount = buf.readInt(); // <-- hier
+        int size = buf.readInt();
+
+        List<ProcessingRecipe.CountedIngredient> ingredients = new ArrayList<>();
+
+        for (int i = 0; i < size; i++) {
+            Ingredient ing = Ingredient.fromNetwork(buf);
+            int count = buf.readInt();
+
+            ingredients.add(new ProcessingRecipe.CountedIngredient(ing, count));
+        }
+
+        int ingredientAmount = buf.readInt();
 
         ItemStack result = buf.readItem();
-        int resultAmount = buf.readInt();      // <-- hier
-        result.setCount(resultAmount);         // Menge setzen
+        int resultAmount = buf.readInt();
+        result.setCount(resultAmount);
 
         int time = buf.readInt();
+        int waterLevelReduction = buf.readInt();
+        int stirCount = buf.readInt();
         ProcessingMode mode = ProcessingMode.fromString(buf.readUtf());
 
         RecipeType<ProcessingRecipe> type = ModRecipeTypes.PROCESSING.get();
 
-        return new ProcessingRecipe(id, ingredient, result, time, type, mode, ingredientAmount);
+        return new ProcessingRecipe(
+                id,
+                ingredients,
+                result,
+                time,
+                type,
+                mode,
+                ingredientAmount,
+                waterLevelReduction,
+                stirCount
+        );
     }
 
     @Override
     public void toNetwork(FriendlyByteBuf buf, ProcessingRecipe recipe) {
-        recipe.ingredient.toNetwork(buf);
+        buf.writeInt(recipe.getIngredients().size());
+
+        for (ProcessingRecipe.CountedIngredient ci : recipe.getCountedIngredients()) {
+            ci.ingredient().toNetwork(buf);
+            buf.writeInt(ci.count());
+        }
         buf.writeInt(recipe.getIngredientAmount());      // <-- schreiben
         buf.writeItem(recipe.getResultItem(null));
         buf.writeInt(recipe.getResultItem(null).getCount()); // <-- schreiben
         buf.writeInt(recipe.getTime());
+        buf.writeInt(recipe.getWaterLevelReduction());
+        buf.writeInt(recipe.getStirCount());
         buf.writeUtf(recipe.getMode().getId());
     }
 }

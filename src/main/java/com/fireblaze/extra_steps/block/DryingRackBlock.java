@@ -1,5 +1,6 @@
 package com.fireblaze.extra_steps.block;
 
+import com.fireblaze.extra_steps.config.ModConfigHandler;
 import com.fireblaze.extra_steps.item.WoolBrushItem;
 import com.fireblaze.extra_steps.processing.ProcessingMode;
 import com.fireblaze.extra_steps.processing.ProcessingRecipe;
@@ -14,6 +15,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.BrushItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -107,8 +109,13 @@ public class DryingRackBlock extends Block implements EntityBlock {
                 return InteractionResult.SUCCESS;
             }
 
+            boolean isWoolBrush = held.getItem() instanceof WoolBrushItem;
+            boolean isVanillaBrush = held.getItem() instanceof BrushItem;
+
+            boolean validBrush = isWoolBrush || (isVanillaBrush && ModConfigHandler.allowVanillaBrush.get());
+
             // --- Brushing-Check ---
-            if(held.getItem() instanceof WoolBrushItem && rack.getRecipeByMode(ProcessingMode.BRUSHING).isPresent()) {
+            if(validBrush && rack.getRecipeByMode(ProcessingMode.BRUSHING).isPresent()) {
                 rack.brushing(player);
 
                 player.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 5, 3, false, false));

@@ -85,6 +85,7 @@ public class ProcessingRecipeCategory implements IRecipeCategory<ProcessingRecip
             case SCRAPING -> Component.literal("Scraping");
             //case SPINNING -> Component.literal("Spinning");
             case CLEANING -> Component.literal("Cleaning & Dying");
+            case MIXING -> Component.literal("Mixing");
             case LYE_WATER -> Component.literal("Lye Water");
         };
     }

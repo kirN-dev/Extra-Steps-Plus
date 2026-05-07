@@ -14,6 +14,7 @@ public class ModConfigHandler {
     public static ForgeConfigSpec.BooleanValue enableAlwaysRawWoolDrop;
     public static ForgeConfigSpec.IntValue cauldronFillCheckInterval;
     public static ForgeConfigSpec.IntValue cauldronFillChance;
+    public static ForgeConfigSpec.BooleanValue allowVanillaBrush;
 
     // === Konfigurationswerte (Client) ===
     public static ForgeConfigSpec.BooleanValue enableGlassBlockCulling;
@@ -49,6 +50,14 @@ public class ModConfigHandler {
                 .comment("The chance the Wooden Cauldron has to increase it's water fill level due to rain (500 means a 1/500 chance per interval chosen above)")
                 .defineInRange("cauldronFillChance", 450, 1, 10000);
 
+        commonBuilder.pop();
+        commonBuilder.push("Tools");
+
+        allowVanillaBrush = commonBuilder
+                .comment("If enabled, the vanilla BrushItem can also be used for brushing")
+                .define("allowVanillaBrush", false);
+
+        commonBuilder.pop();
 
         COMMON_CONFIG = commonBuilder.build();
 

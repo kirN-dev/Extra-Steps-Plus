@@ -1,19 +1,15 @@
 package com.fireblaze.extra_steps.block;
 
-import com.fireblaze.extra_steps.blockentity.LyeWaterCauldronBlockEntity;
 import com.fireblaze.extra_steps.blockentity.WoodenLyeWaterCauldronBlockEntity;
-import com.fireblaze.extra_steps.fluid.ModCauldronInteractions;
-import com.fireblaze.extra_steps.fluid.WoodenCauldronInteractions;
+import com.fireblaze.extra_steps.cauldron.interaction.WoodenCauldronInteractions;
 import com.fireblaze.extra_steps.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 

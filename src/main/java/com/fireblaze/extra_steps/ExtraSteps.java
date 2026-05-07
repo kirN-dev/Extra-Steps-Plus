@@ -1,6 +1,9 @@
 package com.fireblaze.extra_steps;
 
 import com.fireblaze.extra_steps.blockentity.*;
+import com.fireblaze.extra_steps.cauldron.interaction.ModCauldronInteractions;
+import com.fireblaze.extra_steps.cauldron.interaction.WoodenCauldronInteractions;
+import com.fireblaze.extra_steps.cauldron.network.ModNetwork;
 import com.fireblaze.extra_steps.client.color.*;
 import com.fireblaze.extra_steps.client.render.ColorableGlassBlockRenderer;
 import com.fireblaze.extra_steps.config.ModConfigHandler;
@@ -17,13 +20,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -71,11 +71,15 @@ public class ExtraSteps
 
         ModRecipeTypes.RECIPE_TYPES.register(modEventBus);
 
+        ModSounds.SOUND_EVENTS.register(FMLJavaModLoadingContext.get().getModEventBus());
+
         modEventBus.addListener(this::commonSetup);
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
 
         ModLootModifiers.register(modEventBus);
+
+        ModNetwork.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

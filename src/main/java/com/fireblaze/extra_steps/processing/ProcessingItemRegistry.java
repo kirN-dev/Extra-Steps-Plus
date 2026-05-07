@@ -33,11 +33,14 @@ public class ProcessingItemRegistry {
                     mode == ProcessingMode.SCRAPING ||
                     mode == ProcessingMode.BRUSHING) {
 
-                Ingredient ingredient = recipe.ingredient;
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    for (ItemStack stack : ingredient.getItems()) {
+                        RACK_ITEMS.add(stack.getItem());
 
-                for (ItemStack stack : ingredient.getItems()) {
-                    RACK_ITEMS.add(stack.getItem());
-                    if (mode == ProcessingMode.DRYING) DRYING_ITEMS.add(stack.getItem());
+                        if (mode == ProcessingMode.DRYING) {
+                            DRYING_ITEMS.add(stack.getItem());
+                        }
+                    }
                 }
             }
         }

@@ -1,9 +1,8 @@
 package com.fireblaze.extra_steps.block;
 
 import com.fireblaze.extra_steps.blockentity.LyeWaterCauldronBlockEntity;
-import com.fireblaze.extra_steps.fluid.ModCauldronInteractions;
+import com.fireblaze.extra_steps.cauldron.interaction.ModCauldronInteractions;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
