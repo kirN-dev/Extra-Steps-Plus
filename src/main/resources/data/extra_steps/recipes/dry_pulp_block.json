@@ -1,0 +1,15 @@
+{
+  "type": "extra_steps:processing",
+  "mode": "drying",
+  "ingredients": [
+    {
+      "item": "extra_steps:pulp_block",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "extra_steps:paper_block",
+    "count": 1
+  },
+  "time": 200
+}

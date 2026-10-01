@@ -1,0 +1,25 @@
+{
+  "type": "extra_steps:processing",
+  "mode": "scraping",
+  "ingredients": [
+    {
+      "item": "extra_steps:paper_block",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:paper",
+    "count": 1
+  },
+  "interaction_count": 1,
+  "input_cost": {
+    "type": "damage",
+    "amount": 1,
+    "trigger": "per_interaction"
+  },
+  "tools": [
+    {
+      "tag": "minecraft:swords"
+    }
+  ]
+}

@@ -17,6 +17,10 @@ public class ModCreativeModTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.COW_HIDE.get()))
                     .title(Component.translatable("creative_tab.extra_steps_tab"))
                     .displayItems(((pParameters, pOutput) -> {
+                        pOutput.accept(ModItems.PAPER_BLOCK.get());
+                        pOutput.accept(ModItems.PLANT_FIBER.get());
+                        pOutput.accept(ModItems.PULP.get());
+                        pOutput.accept(ModItems.PULP_BLOCK.get());
                         pOutput.accept(ModItems.CRUMBLED_WOOL.get());
                         pOutput.accept(ModItems.RAW_WOOL.get());
                         pOutput.accept(ModItems.WET_WOOL.get());

@@ -1,0 +1,27 @@
+{
+  "type": "extra_steps:processing",
+  "mode": "scraping",
+  "ingredients": [
+    {
+      "item": "minecraft:sugar_cane",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:sugar",
+    "count": 1
+  },
+  "interaction_count": 3,
+  "byproducts": [
+    {
+      "item": "extra_steps:plant_fiber",
+      "chance": 1,
+      "trigger": "per_interaction",
+      "count": 1,
+      "interactions": [
+        1,
+        2
+      ]
+    }
+  ]
+}

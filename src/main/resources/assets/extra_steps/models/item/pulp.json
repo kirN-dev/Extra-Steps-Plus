@@ -1,0 +1,6 @@
+{
+  "textures": {
+    "layer0": "extra_steps:item/pulp"
+  },
+  "parent": "minecraft:item/generated"
+}

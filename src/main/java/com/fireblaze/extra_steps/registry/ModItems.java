@@ -18,6 +18,16 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, ExtraSteps.MODID);
 
+    public static final RegistryObject<Item> PAPER_BLOCK =
+            ITEMS.register("paper_block", () -> new Item(new Item.Properties().durability(8)));
+    public static final RegistryObject<Item> PLANT_FIBER =
+            ITEMS.register("plant_fiber", () -> new Item(new Item.Properties().stacksTo(64)));
+
+    public static final RegistryObject<Item> PULP =
+            ITEMS.register("pulp", () -> new Item(new Item.Properties().stacksTo(64)));
+    public static final RegistryObject<Item> PULP_BLOCK =
+            ITEMS.register("pulp_block", () -> new Item(new Item.Properties().stacksTo(64)));
+
     // Wool system
     public static final RegistryObject<Item> CRUMBLED_WOOL =
             ITEMS.register("crumbled_wool", () -> new ColoredWoolItem(new Item.Properties()));
