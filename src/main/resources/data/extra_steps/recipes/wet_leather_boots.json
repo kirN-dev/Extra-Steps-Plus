@@ -1,7 +1,15 @@
 {
   "type": "extra_steps:processing",
   "mode": "cleaning",
-  "ingredient": { "item": "minecraft:leather_boots" },
-  "result": "minecraft:leather_boots",
+  "ingredients": [
+    {
+      "item": "minecraft:leather_boots",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:leather_boots",
+    "count": 1
+  },
   "time": 0
 }

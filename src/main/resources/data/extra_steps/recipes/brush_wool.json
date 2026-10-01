@@ -1,7 +1,18 @@
 {
   "type": "extra_steps:processing",
   "mode": "brushing",
-  "ingredient": { "item": "extra_steps:fibered_wool" },
-  "result": "extra_steps:brushed_wool",
-  "time": 40
+  "ingredients": [
+    {
+      "item": "extra_steps:fibered_wool",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "extra_steps:brushed_wool",
+    "count": 1
+  },
+  "time": 40,
+  "byproducts": [
+    { "item": "minecraft:string", "count": 1, "chance": 0.1, "trigger": "on_completion" }
+  ]
 }

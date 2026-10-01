@@ -1,7 +1,16 @@
 {
   "type": "extra_steps:processing",
   "mode": "scraping",
-  "ingredient": { "tag": "extra_steps:raw_hides" },
-  "result": "extra_steps:scraped_hide",
-  "time": 0
+  "ingredients": [
+    {
+      "tag": "extra_steps:raw_hides",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "extra_steps:scraped_hide",
+    "count": 1
+  },
+  "time": 0,
+  "interaction_count": 3
 }

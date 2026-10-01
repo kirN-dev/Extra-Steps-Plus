@@ -1,7 +1,15 @@
 {
   "type": "extra_steps:processing",
   "mode": "cleaning",
-  "ingredient": { "item": "extra_steps:scraped_hide" },
-  "result": "extra_steps:wet_hide",
+  "ingredients": [
+    {
+      "item": "extra_steps:scraped_hide",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "extra_steps:wet_hide",
+    "count": 1
+  },
   "time": 0
 }

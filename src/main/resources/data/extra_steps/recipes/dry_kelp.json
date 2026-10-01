@@ -1,7 +1,15 @@
 {
   "type": "extra_steps:processing",
   "mode": "drying",
-  "ingredient": { "item": "minecraft:kelp" },
-  "result": "minecraft:dried_kelp",
+  "ingredients": [
+    {
+      "item": "minecraft:kelp",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:dried_kelp",
+    "count": 1
+  },
   "time": 200
 }

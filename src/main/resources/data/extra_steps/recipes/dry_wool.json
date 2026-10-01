@@ -1,7 +1,15 @@
 {
   "type": "extra_steps:processing",
   "mode": "drying",
-  "ingredient": { "item": "extra_steps:wet_wool" },
-  "result": "extra_steps:fibered_wool",
+  "ingredients": [
+    {
+      "item": "extra_steps:wet_wool",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "extra_steps:fibered_wool",
+    "count": 1
+  },
   "time": 200
 }

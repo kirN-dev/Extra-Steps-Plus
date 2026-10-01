@@ -1,7 +1,15 @@
 {
   "type": "extra_steps:processing",
   "mode": "drying",
-  "ingredient": { "item": "extra_steps:wet_hide" },
-  "result": "minecraft:leather",
+  "ingredients": [
+    {
+      "item": "extra_steps:wet_hide",
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "minecraft:leather",
+    "count": 1
+  },
   "time": 200
 }

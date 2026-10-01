@@ -2,11 +2,15 @@
   "type": "extra_steps:processing",
   "mode": "mixing",
   "ingredients": [
-    { "item": "minecraft:rabbit_hide",
+    {
+      "item": "minecraft:rabbit_hide",
       "count": 4
     }
   ],
-  "result": { "item": "extra_steps:wet_hide" },
-  "stir_count": 2,
-  "water_level_consumption": 1
+  "result": {
+    "item": "extra_steps:wet_hide",
+    "count": 1
+  },
+  "water_level_consumption": 1,
+  "interaction_count": 2
 }

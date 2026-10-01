@@ -24,6 +24,12 @@ public class ProcessingRecipe implements Recipe<SimpleContainer> {
     private final int waterLevelConsumption;
     private final int stirCount;
 
+    private ScrapingSettings scrapingSettings = new ScrapingSettings(new com.google.gson.JsonObject());
+    public ScrapingSettings getScrapingSettings() { return scrapingSettings; }
+    public ProcessingRecipe withScrapingSettings(ScrapingSettings settings) {
+        scrapingSettings = settings;
+        return this;
+    }
     private final int ingredientAmount;
 
     public ProcessingRecipe(ResourceLocation id,

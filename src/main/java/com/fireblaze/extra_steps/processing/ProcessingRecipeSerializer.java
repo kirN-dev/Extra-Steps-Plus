@@ -28,7 +28,7 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
 
                 JsonObject obj = element.getAsJsonObject();
 
-                Ingredient ingredient = Ingredient.fromJson(obj);
+                Ingredient ingredient = Ingredient.fromJson(obj.has("ingredient") ? obj.get("ingredient") : obj);
 
                 int count = obj.has("count") ? obj.get("count").getAsInt() : 1;
 
@@ -44,7 +44,7 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
 
         int ingredientAmount = json.has("ingredientAmount")
                 ? json.get("ingredientAmount").getAsInt()
-                : 1;
+                : ingredients.get(0).count();
 
         // 🔹 Result
         ItemStack result;
@@ -67,12 +67,12 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
         // 🔹 Result-Menge
         int resultAmount = json.has("resultAmount")
                 ? json.get("resultAmount").getAsInt()
-                : 1;
+                : (json.get("result").isJsonObject() && json.getAsJsonObject("result").has("count") ? json.getAsJsonObject("result").get("count").getAsInt() : 1);
         result.setCount(resultAmount);
 
         // 🔹 Zeit & Mode
         int time = json.has("time") ? json.get("time").getAsInt() : 0;
-        int stirCount = json.has("stir_count")
+        int stirCount = json.has("interaction_count") ? json.get("interaction_count").getAsInt() : json.has("stir_count")
                 ? json.get("stir_count").getAsInt()
                 : 3;
 
@@ -84,6 +84,8 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
                 ? json.get("water_level_consumption").getAsInt()
                 : 0;
 
+        if (mode == ProcessingMode.SCRAPING && (ingredients.size() != 1 || ingredients.get(0).count() != 1 || ingredientAmount != 1))
+            throw new IllegalArgumentException("Scraping requires a single input item");
         return new ProcessingRecipe(
                 id,
                 ingredients,
@@ -94,7 +96,7 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
                 ingredientAmount,
                 waterCost,
                 stirCount
-        );
+        ).withScrapingSettings(new ScrapingSettings(json));
     }
 
     @Override
@@ -133,7 +135,7 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
                 ingredientAmount,
                 waterLevelReduction,
                 stirCount
-        );
+        ).withScrapingSettings(new ScrapingSettings(com.google.gson.JsonParser.parseString(buf.readUtf()).getAsJsonObject()));
     }
 
     @Override
@@ -151,5 +153,6 @@ public class ProcessingRecipeSerializer implements RecipeSerializer<ProcessingRe
         buf.writeInt(recipe.getWaterLevelReduction());
         buf.writeInt(recipe.getStirCount());
         buf.writeUtf(recipe.getMode().getId());
+        buf.writeUtf(recipe.getScrapingSettings().json.toString());
     }
 }

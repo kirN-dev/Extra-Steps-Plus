@@ -2,9 +2,15 @@
   "type": "extra_steps:processing",
   "mode": "mixing",
   "ingredients": [
-    { "item": "minecraft:dirt" }
+    {
+      "item": "minecraft:dirt",
+      "count": 1
+    }
   ],
-  "result": { "item": "minecraft:mud" },
-  "stir_count": 2,
-  "water_level_consumption": 1
+  "result": {
+    "item": "minecraft:mud",
+    "count": 1
+  },
+  "water_level_consumption": 1,
+  "interaction_count": 2
 }
