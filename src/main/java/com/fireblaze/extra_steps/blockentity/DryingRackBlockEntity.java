@@ -32,14 +32,19 @@ public class DryingRackBlockEntity extends MachineBlockEntity {
     public float clientSpeed = 0f;
     private boolean isBrushing = false;
     private float brushProgress = 0f;
+    private int legacyScrapingActions = 0;
     public int brushInteractionCooldown = 15;
     public int pickupCooldown = 0;
     public boolean showBrushFinishedParticles = false;
 
     private final ItemStackHandler inventory = new ItemStackHandler(1) {
         @Override
+        public int getSlotLimit(int slot) { return 1; }
+
+        @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
+            legacyScrapingActions = 0;
 
             ItemStack stack = inventory.getStackInSlot(slot);
             if(!stack.isEmpty() && stack.hasTag() && stack.getTag().contains("dryingProgress")) {
@@ -59,6 +64,64 @@ public class DryingRackBlockEntity extends MachineBlockEntity {
 
     public ItemStack getItemInSlot0() {
         return inventory.getStackInSlot(0);
+    }
+
+    public int getScrapingActions() {
+        return getRecipeByMode(ProcessingMode.SCRAPING).map(recipe -> {
+            migrateScraping(recipe);
+            return com.fireblaze.extra_steps.util.ScrapingProgressHelper.get(getItemInSlot0(), recipe);
+        }).orElse(0);
+    }
+
+    public float getBrushProgress() {
+        return brushProgress;
+    }
+
+    private void migrateScraping(ProcessingRecipe recipe) {
+        ItemStack stack = getItemInSlot0();
+        if (legacyScrapingActions > 0 && !com.fireblaze.extra_steps.util.ScrapingProgressHelper.has(stack)) {
+            com.fireblaze.extra_steps.util.ScrapingProgressHelper.set(stack, recipe, Math.min(legacyScrapingActions, recipe.getScrapingSettings().interactions - 1));
+            setChanged();
+        }
+        legacyScrapingActions = 0;
+    }
+
+    public boolean scrape(Player player, net.minecraft.world.InteractionHand hand) {
+        if (level == null || level.isClientSide) return false;
+        Optional<ProcessingRecipe> found = getRecipeByMode(ProcessingMode.SCRAPING);
+        if (found.isEmpty()) return false;
+        ProcessingRecipe recipe = found.get();
+        var rules = recipe.getScrapingSettings();
+        ItemStack input = getItemInSlot0();
+        if (input.getCount() != 1 || !rules.acceptsTool(player.getItemInHand(hand))) return false;
+        if (rules.damageInput && !input.isDamageableItem()) return false;
+        migrateScraping(recipe);
+        int completed = com.fireblaze.extra_steps.util.ScrapingProgressHelper.get(input, recipe) + 1;
+        boolean finished = completed >= rules.interactions;
+        boolean broken = false;
+        if (rules.damageInput) {
+            // Processing wear is deterministic: enchantments and creative mode do not alter the yield.
+            int remaining = input.getMaxDamage() - input.getDamageValue();
+            broken = rules.damage >= remaining;
+            if (!broken) input.setDamageValue(input.getDamageValue() + rules.damage);
+        }
+        for (var byproduct : rules.byproducts) {
+            if (byproduct.appliesAt(completed, finished) && level.random.nextFloat() < byproduct.chance())
+                net.minecraft.world.level.block.Block.popResource(level, worldPosition, byproduct.stack().copy());
+        }
+        if (finished) {
+            if (rules.damageInput) {
+                ItemStack output = recipe.getResultItem(level.registryAccess()).copy();
+                if (GenericColorHelper.hasColor(input)) GenericColorHelper.copyColor(input, output);
+                net.minecraft.world.level.block.Block.popResource(level, worldPosition, output);
+                com.fireblaze.extra_steps.util.ScrapingProgressHelper.clear(input);
+            } else processItem(recipe);
+        } else com.fireblaze.extra_steps.util.ScrapingProgressHelper.set(input, recipe, completed);
+        if (broken) inventory.extractItem(0, 1, false);
+        player.getItemInHand(hand).hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
+        level.playSound(null, worldPosition, net.minecraft.sounds.SoundEvents.ARMOR_EQUIP_LEATHER, net.minecraft.sounds.SoundSource.BLOCKS, 0.5f, 1f);
+        markForRenderUpdate();
+        return true;
     }
 
     public DryingRackBlockEntity(BlockPos pos, BlockState state) {
@@ -100,6 +163,8 @@ public class DryingRackBlockEntity extends MachineBlockEntity {
             return;
         }
 
+        getRecipeByMode(ProcessingMode.SCRAPING).ifPresent(this::migrateScraping);
+
         // --- Brushing Mode ---
         Optional<ProcessingRecipe> brushingRecipe = getRecipeByMode(ProcessingMode.BRUSHING);
 
@@ -119,6 +184,8 @@ public class DryingRackBlockEntity extends MachineBlockEntity {
             if(brushProgress >= brushingRecipe.get().getTime()) {
 
                 processItem(brushingRecipe.get());
+                com.fireblaze.extra_steps.processing.ProcessingByproducts.drop(level, worldPosition,
+                        brushingRecipe.get(), brushingRecipe.get().getScrapingSettings().interactions, true);
 
                 brushProgress = 0;
                 isBrushing = false;
@@ -247,6 +314,7 @@ public class DryingRackBlockEntity extends MachineBlockEntity {
         super.saveAdditional(tag);
         tag.put("Inventory", inventory.serializeNBT());
         tag.putFloat("dryingTime", dryingTime);
+        tag.putInt("scrapingActions", legacyScrapingActions);
     }
 
     @Override
@@ -254,6 +322,7 @@ public class DryingRackBlockEntity extends MachineBlockEntity {
         super.load(tag);
         inventory.deserializeNBT(tag.getCompound("Inventory"));
         dryingTime = tag.getFloat("dryingTime");
+        legacyScrapingActions = tag.getInt("scrapingActions");
         clientSpeed = tag.getFloat("clientSpeed");
     }
 

@@ -13,15 +13,7 @@ public class ScrapingHelper {
 
     public static boolean canScrape(ItemStack target, Player player, Optional<ProcessingRecipe> recipe) {
 
-        boolean matchesIngredient = recipe.get().getIngredients().stream()
-                .anyMatch(ingredient -> ingredient.test(target));
-
-        if (matchesIngredient) {
-            ItemStack held = player.getMainHandItem();
-
-            return held.getItem() instanceof AxeItem || held.getItem() instanceof SwordItem;
-        }
-
-        return false;
+        return recipe.isPresent() && recipe.get().getIngredients().stream().anyMatch(ingredient -> ingredient.test(target))
+                && recipe.get().getScrapingSettings().acceptsTool(player.getMainHandItem());
     }
 }

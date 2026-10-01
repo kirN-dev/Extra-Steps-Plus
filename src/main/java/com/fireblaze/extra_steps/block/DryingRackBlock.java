@@ -129,18 +129,7 @@ public class DryingRackBlock extends Block implements EntityBlock {
             }
 
             // --- Scraping ---
-            if (rack.getRecipeByMode(ProcessingMode.SCRAPING).isPresent()) {
-                Optional<ProcessingRecipe> scrapingRecipe = rack.getRecipeByMode(ProcessingMode.SCRAPING);
-
-                if(ScrapingHelper.canScrape(stored, player, scrapingRecipe)) {
-                    rack.getInventoryHandler().extractItem(0, 1, false);
-                    rack.getInventoryHandler().insertItem(0, new ItemStack(scrapingRecipe.get().getResultItem(null).getItem()), false);
-                    rack.damageTool(player);
-                    player.level().playSound(null, pos, SoundEvents.ARMOR_EQUIP_LEATHER, SoundSource.BLOCKS, 0.5f, 1.0f);
-                    rack.markForRenderUpdate();
-                    return InteractionResult.SUCCESS;
-                }
-            }
+            if (rack.scrape(player, hand)) return InteractionResult.SUCCESS;
 
             // --- Normales Aufheben ---
             ItemStack toPickup = stored.copy();

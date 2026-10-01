@@ -21,6 +21,21 @@ public class DryingTooltipHandler {
     public static void onItemTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
 
+        var level = net.minecraft.client.Minecraft.getInstance().level;
+        if (level != null) {
+            level.getRecipeManager().getAllRecipesFor(com.fireblaze.extra_steps.registry.ModRecipeTypes.PROCESSING.get()).stream()
+                .filter(recipe -> recipe.getMode() == com.fireblaze.extra_steps.processing.ProcessingMode.SCRAPING)
+                .filter(recipe -> recipe.matches(new net.minecraft.world.SimpleContainer(stack), level))
+                .findFirst().ifPresent(recipe -> {
+                    int scrapes = com.fireblaze.extra_steps.util.ScrapingProgressHelper.get(stack, recipe);
+                    if (scrapes > 0) {
+                        event.getToolTip().add(Component.translatable("tooltip.extra_steps.scrapes",
+                            scrapes, recipe.getScrapingSettings().interactions));
+                    }
+                    if (recipe.getScrapingSettings().damageInput && stack.isDamageableItem())
+                        event.getToolTip().add(Component.translatable("tooltip.extra_steps.uses", stack.getMaxDamage() - stack.getDamageValue(), stack.getMaxDamage()));
+                });
+        }
         if (!stack.hasTag()) return;
         CompoundTag tag = stack.getTag();
         assert tag != null;
