@@ -3,6 +3,7 @@ package com.fireblaze.extra_steps.cauldron.interaction;
 import com.fireblaze.extra_steps.cauldron.data.CauldronMixingData;
 import com.fireblaze.extra_steps.processing.ProcessingMode;
 import com.fireblaze.extra_steps.processing.ProcessingRecipe;
+import com.fireblaze.extra_steps.processing.ProcessingRequirements;
 import com.fireblaze.extra_steps.registry.ModBlocks;
 import com.fireblaze.extra_steps.registry.ModRecipeTypes;
 import com.fireblaze.extra_steps.registry.ModSounds;
@@ -23,7 +24,6 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -65,7 +65,7 @@ public class CauldronMixingHandler {
 
         if (stack.getItem() instanceof BucketItem) return InteractionResult.PASS;
 
-        if (!state.is(ModTags.Blocks.VALID_MIXING_CAULDRONS)) {
+        if (!ProcessingRequirements.isMixingCauldron(state)) {
             return InteractionResult.PASS;
         }
 
@@ -109,7 +109,7 @@ public class CauldronMixingHandler {
             return InteractionResult.SUCCESS; // nichts drin, aber handled
         }
 
-        if (!stack.isEmpty() && !(stack.getItem() instanceof ShovelItem)) {
+        if (!stack.isEmpty() && !ProcessingRequirements.isMixingTool(stack)) {
 
             if (!isValidIngredient(level, stack)) {
                 return InteractionResult.PASS;
@@ -129,7 +129,7 @@ public class CauldronMixingHandler {
             return InteractionResult.SUCCESS;
         }
 
-        if (!(stack.getItem() instanceof ShovelItem)) {
+        if (!ProcessingRequirements.isMixingTool(stack)) {
             return InteractionResult.PASS;
         }
 
@@ -173,6 +173,7 @@ public class CauldronMixingHandler {
         stack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(hand));
 
         if (hits < recipe.getStirCount()) {
+            com.fireblaze.extra_steps.processing.ProcessingByproducts.drop(level, pos, recipe, hits, false);
             level.playSound(
                     null,
                     pos,
@@ -203,6 +204,7 @@ public class CauldronMixingHandler {
         data.setInventory(pos, inv, (ServerLevel) level);
 
         data.setInventory(pos, inv, (ServerLevel) level);
+        com.fireblaze.extra_steps.processing.ProcessingByproducts.drop(level, pos, recipe, hits, true);
 
         // 👉 Wasser reduzieren
         int newLevel = waterLevel - recipe.getWaterLevelReduction();

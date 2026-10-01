@@ -1,0 +1,14 @@
+{
+  "type": "extra_steps:processing",
+  "mode": "mixing",
+  "ingredients": [
+    { "item": "minecraft:dirt", "count": 1 },
+    { "item": "minecraft:mud", "count": 1 }
+  ],
+  "result": { "item": "minecraft:clay", "count": 1 },
+  "water_level_consumption": 3,
+  "interaction_count": 4,
+  "byproducts": [
+    { "item": "minecraft:clay_ball", "count": 1, "chance": 0.5, "trigger": "on_completion" }
+  ]
+}
