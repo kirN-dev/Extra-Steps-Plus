@@ -67,10 +67,13 @@ public class JEIExtraStepsPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         for (ProcessingMode mode : ProcessingMode.values()) {
-            registration.addRecipeCatalyst(
-                    JEIHelper.getIconForMode(mode),
-                    ProcessingRecipeCategory.getRecipeType(mode)
-            );
+            for (ItemStack stack : EquipmentDisplayResolver.resolve(mode)) {
+                registration.addRecipeCatalyst(stack, ProcessingRecipeCategory.getRecipeType(mode));
+            }
+            if (mode == ProcessingMode.BRUSHING) {
+                registration.addRecipeCatalyst(JEIHelper.getIconForMode(mode),
+                        ProcessingRecipeCategory.getRecipeType(mode));
+            }
         }
     }
 }
