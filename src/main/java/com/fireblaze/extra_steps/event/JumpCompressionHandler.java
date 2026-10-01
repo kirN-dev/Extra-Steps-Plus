@@ -77,11 +77,11 @@ public class JumpCompressionHandler {
             drop = new ItemStack(vanillaWool.asItem());
         } else if (stack.hasTag() && stack.getTag().contains(GenericColorHelper.FILL_FACTOR)) {
             // Dein eigener Wool Block
-            drop = new ItemStack(recipe.getResultItem(null).getItem());
+            drop = recipe.getResultItem(null).copy();
 
             // Farbe vom Input übernehmen
             GenericColorHelper.copyColor(inputCopy, drop);
-        } else drop = new ItemStack(recipe.getResultItem(null).getItem());
+        } else drop = recipe.getResultItem(null).copy();
 
         player.level().addFreshEntity(new net.minecraft.world.entity.item.ItemEntity(
                 player.level(),

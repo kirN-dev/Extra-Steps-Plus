@@ -14,6 +14,8 @@ public class ModTags {
     public static final TagKey<Item> RAW_HIDES =
             TagKey.create(ForgeRegistries.ITEMS.getRegistryKey(), ResourceLocation.fromNamespaceAndPath(ExtraSteps.MODID, "raw_hides"));
     public static class Items {
+        public static final TagKey<Item> MIXING_TOOLS =
+                ItemTags.create(ResourceLocation.fromNamespaceAndPath(ExtraSteps.MODID, "mixing_tools"));
         public static final TagKey<Item> COLORABLE_BLOCKS =
                 ItemTags.create(ResourceLocation.fromNamespaceAndPath("extra_steps", "colorable_blocks"));
     }
