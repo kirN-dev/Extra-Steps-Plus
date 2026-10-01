@@ -125,7 +125,9 @@ public class ModCauldronInteractions {
             if (lyeRecipe == null) return InteractionResult.PASS;
 
             // Nur 1 Item verbrauchen
-            stack.shrink(1);
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
 
             // Neuen Lye Water Cauldron BlockState setzen, Füllstand übernehmen
             BlockState newState = ModBlocks.LYE_WATER_CAULDRON.get()
@@ -391,6 +393,8 @@ public class ModCauldronInteractions {
             }
             return InteractionResult.PASS;
         });
+
+        LYE_WATER.put(ModItems.SCRAPED_HIDE.get(), ModCauldronInteractions::handleCleaning);
 
         BuiltInRegistries.ITEM.forEach(item -> {
             CauldronInteraction original = CauldronInteraction.WATER.get(item);

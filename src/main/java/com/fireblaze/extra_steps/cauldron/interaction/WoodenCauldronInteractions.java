@@ -127,7 +127,9 @@ public class WoodenCauldronInteractions {
             if (lyeRecipe == null) return InteractionResult.PASS;
 
             // Nur 1 Item verbrauchen
-            stack.shrink(1);
+            if (!player.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
 
             // Neuen Lye Water Cauldron BlockState setzen, Füllstand übernehmen
             BlockState newState = ModBlocks.WOODEN_LYE_WATER_CAULDRON.get()
@@ -162,9 +164,12 @@ public class WoodenCauldronInteractions {
                         3
                 );
 
-                CauldronInteractionHelper.playSound(level, pos, SoundEvents.BUCKET_FILL);
+                CauldronInteractionHelper.playSound(level, pos, SoundEvents.BUCKET_EMPTY);
 
-                player.setItemInHand(hand, new ItemStack(Items.BUCKET));
+                player.setItemInHand(
+                        hand,
+                        ItemUtils.createFilledResult(stack, player, new ItemStack(Items.BUCKET))
+                );
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         });
@@ -519,7 +524,7 @@ public class WoodenCauldronInteractions {
                 }
 
                 // 2. Lye Water Creation
-                InteractionResult lyeWaterResult = ModCauldronInteractions.handleLyeWaterCreation(
+                InteractionResult lyeWaterResult = WoodenCauldronInteractions.handleLyeWaterCreation(
                         state, level, pos, player, hand, stack
                 );
                 if (lyeWaterResult.consumesAction()) return lyeWaterResult;
